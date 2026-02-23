@@ -207,7 +207,7 @@ a:focus-visible {
 .section-header {
   display: grid;
   gap: 0.8rem;
-  text-align: center;
+  text-align: left;
 }
 
 .section-header h1 {
