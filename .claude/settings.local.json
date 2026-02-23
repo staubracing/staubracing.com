@@ -14,7 +14,8 @@
       "Bash(curl:*)",
       "Bash(gh run:*)",
       "Bash(which bwrap:*)",
-      "Bash(bwrap:*)"
+      "Bash(bwrap:*)",
+      "Bash(yarn add:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

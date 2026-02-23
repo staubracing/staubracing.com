@@ -71,6 +71,8 @@ import Layout from '../../layouts/Layout.astro';
 </Layout>
 
 <script>
+  import { configureAuth, getJwtToken, signOut } from '../../services/auth';
+
   const API_URL = 'https://api.staubracing.com/maintenance';
 
   // Bike UUID to friendly name mapping
@@ -80,12 +82,8 @@ import Layout from '../../layouts/Layout.astro';
     '37053aac-a94d-43d4-a523-43c8b9fc6686': 'ZX6R'
   };
 
-  // Auth check - redirect immediately if no key
-  const apiKey = localStorage.getItem('maintenance_api_key');
-  if (!apiKey) {
-    window.location.href = '/admin/login';
-    throw new Error('Redirecting to login');
-  }
+  // Initialize Cognito
+  configureAuth();
 
   const form = document.getElementById('maintenance-form') as HTMLFormElement;
   const statusMsg = document.getElementById('status-msg') as HTMLElement;
@@ -101,12 +99,23 @@ import Layout from '../../layouts/Layout.astro';
     recentList.appendChild(p);
   }
 
+  // Redirect to login
+  function redirectToLogin() {
+    window.location.href = '/admin/login';
+  }
+
   // Fetch recent tasks
   async function loadRecentTasks() {
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+
     try {
       const response = await fetch(API_URL, {
         headers: {
-          'x-api-key': apiKey!
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -114,7 +123,8 @@ import Layout from '../../layouts/Layout.astro';
         const tasks = await response.json();
         renderTasks(tasks.slice(0, 5));
       } else if (response.status === 401) {
-        window.location.href = '/admin/login';
+        await signOut();
+        redirectToLogin();
       } else {
         showEmptyState('Unable to load tasks');
       }
@@ -172,12 +182,18 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   async function toggleComplete(id: string, completed: boolean) {
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey!
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ completed })
       });
@@ -185,7 +201,8 @@ import Layout from '../../layouts/Layout.astro';
       if (response.ok) {
         loadRecentTasks();
       } else if (response.status === 401) {
-        window.location.href = '/admin/login';
+        await signOut();
+        redirectToLogin();
       }
     } catch (err) {
       console.error('Failed to toggle task:', err);
@@ -197,6 +214,12 @@ import Layout from '../../layouts/Layout.astro';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
 
     const title = (document.getElementById('title') as HTMLInputElement).value;
     const bikeId = (document.getElementById('bike') as HTMLSelectElement).value;
@@ -213,8 +236,8 @@ import Layout from '../../layouts/Layout.astro';
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey!
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           title,
@@ -234,7 +257,8 @@ import Layout from '../../layouts/Layout.astro';
         (document.getElementById('priority') as HTMLSelectElement).value = 'medium';
         loadRecentTasks();
       } else if (response.status === 401) {
-        window.location.href = '/admin/login';
+        await signOut();
+        redirectToLogin();
       } else {
         statusMsg.textContent = data.error || data.message || 'Failed to add task';
         statusMsg.classList.add('error');
@@ -249,10 +273,12 @@ import Layout from '../../layouts/Layout.astro';
   });
 
   // Logout handler
-  document.getElementById('logout-link')?.addEventListener('click', (e) => {
+  document.getElementById('logout-link')?.addEventListener('click', async (e) => {
     e.preventDefault();
+    await signOut();
+    // Also clear the old API key if it exists (cleanup)
     localStorage.removeItem('maintenance_api_key');
-    window.location.href = '/admin/login';
+    redirectToLogin();
   });
 </script>
 

@@ -6,24 +6,36 @@ import Layout from '../../layouts/Layout.astro';
   <section class="section-card">
     <header class="section-header">
       <h1>Login</h1>
-      <p>Enter your API key to access the maintenance form.</p>
+      <p>Sign in with your StaubRacing account.</p>
     </header>
 
     <form id="login-form" class="login-form">
       <div class="form-group">
-        <label for="api-key">API Key</label>
+        <label for="username">Username</label>
         <input
-          type="password"
-          id="api-key"
-          name="api-key"
-          placeholder="Enter your API key"
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Enter your username"
           required
-          autocomplete="off"
+          autocomplete="username"
         />
       </div>
 
-      <button type="submit" class="submit-btn">
-        <span class="btn-text">Login</span>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <span class="btn-text">Sign In</span>
         <span class="btn-arrow">→</span>
       </button>
 
@@ -33,28 +45,63 @@ import Layout from '../../layouts/Layout.astro';
 </Layout>
 
 <script>
+  import { configureAuth, signIn, isAuthenticated } from '../../services/auth';
+
   const form = document.getElementById('login-form') as HTMLFormElement;
   const errorMsg = document.getElementById('error-msg') as HTMLElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  // Initialize Cognito
+  configureAuth();
 
   // Check if already logged in
-  const existingKey = localStorage.getItem('maintenance_api_key');
-  if (existingKey) {
-    window.location.href = '/admin/maintenance';
+  async function checkAuth() {
+    const authenticated = await isAuthenticated();
+    if (authenticated) {
+      window.location.href = '/admin/maintenance';
+    }
   }
+
+  // Run auth check on page load
+  checkAuth();
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const apiKey = (document.getElementById('api-key') as HTMLInputElement).value;
+    const username = (document.getElementById('username') as HTMLInputElement).value.trim();
+    const password = (document.getElementById('password') as HTMLInputElement).value;
 
-    if (!apiKey.trim()) {
-      errorMsg.textContent = 'Please enter an API key';
+    if (!username || !password) {
+      errorMsg.textContent = 'Please enter both username and password';
       return;
     }
 
-    // Store the key and redirect
-    localStorage.setItem('maintenance_api_key', apiKey.trim());
-    window.location.href = '/admin/maintenance';
+    // Disable button during sign-in
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="btn-text">Signing in...</span>';
+    errorMsg.textContent = '';
+
+    try {
+      await signIn(username, password);
+      window.location.href = '/admin/maintenance';
+    } catch (err: any) {
+      // Handle Cognito errors
+      const message = err?.message || 'Sign in failed. Please try again.';
+
+      // Map common Cognito error codes to friendly messages
+      if (err?.code === 'NotAuthorizedException') {
+        errorMsg.textContent = 'Incorrect username or password';
+      } else if (err?.code === 'UserNotFoundException') {
+        errorMsg.textContent = 'User not found';
+      } else if (err?.code === 'UserNotConfirmedException') {
+        errorMsg.textContent = 'Please verify your email first';
+      } else {
+        errorMsg.textContent = message;
+      }
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span class="btn-text">Sign In</span><span class="btn-arrow">→</span>';
+    }
   });
 </script>
 
@@ -146,20 +193,26 @@ import Layout from '../../layouts/Layout.astro';
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .submit-btn:hover {
+  .submit-btn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hard);
   }
 
-  .submit-btn:active {
+  .submit-btn:active:not(:disabled) {
     transform: translateY(0);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
   }
 
   .btn-arrow {
     transition: transform 0.2s ease;
   }
 
-  .submit-btn:hover .btn-arrow {
+  .submit-btn:hover:not(:disabled) .btn-arrow {
     transform: translateX(4px);
   }
 
