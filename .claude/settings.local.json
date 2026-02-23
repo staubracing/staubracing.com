@@ -12,7 +12,9 @@
       "mcp__brave-search__brave_web_search",
       "Bash(sleep 2:*)",
       "Bash(curl:*)",
-      "Bash(gh run:*)"
+      "Bash(gh run:*)",
+      "Bash(which bwrap:*)",
+      "Bash(bwrap:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
