@@ -448,12 +448,13 @@ import Layout from '../../layouts/Layout.astro';
     padding-right: 2.5rem;
     background-color: var(--overlay-base-light);
     color: var(--text-primary);
-    color-scheme: light dark;
+    color-scheme: dark;
   }
 
   .form-group select option {
-    background-color: var(--surface-solid);
-    color: var(--text-primary);
+    /* Hardcoded colors - CSS variables don't work in <option> elements */
+    background-color: #1a1a1a;
+    color: #e2e8f0;
   }
 
   .form-group textarea {
