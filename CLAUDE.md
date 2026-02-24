@@ -32,6 +32,13 @@ Deployed automatically via GitHub Actions on push to `main`:
 
 No manual deploy command needed — just `git push`.
 
+**Required GitHub Secrets:**
+- `GOOGLE_CALENDAR_API_KEY` - For calendar integration
+- `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` - S3/CloudFront access
+- `CLOUDFRONT_DISTRIBUTION_ID` - Cache invalidation
+
+**Local development requires Node.js 20+**
+
 **Production gotcha:** S3/CloudFront serves URLs with trailing slashes (`/about/`) while local dev does not (`/about`). Always normalize paths when comparing `Astro.url.pathname`:
 ```javascript
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -78,6 +85,8 @@ staubracing.com/
 │   │   ├── categories.json
 │   │   └── config.ts      # Content collection schema
 │   ├── data/              # Static data files (bike specs, links, etc.)
+│   ├── services/
+│   │   └── auth.ts        # AWS Cognito authentication helpers
 │   ├── layouts/
 │   │   └── Layout.astro   # Shared page shell (includes nav + footer inline)
 │   ├── pages/
@@ -130,6 +139,7 @@ Each section page (racing, workshop, code, journal) aggregates blog posts from i
 - File-based routing in `src/pages/`
 - Static pages: `index.astro`, `racing.astro`, `workshop.astro`, `code.astro`, `journal.astro`, `contact.astro`, `links.astro`, `calendar.astro`, `maintenance.astro`
 - Admin pages: `admin/login.astro`, `admin/maintenance.astro` (API key auth required)
+- Admin auth uses AWS Cognito via `src/services/auth.ts`. Sessions are managed client-side with Amplify.
 - Dynamic: `blog/[...slug].astro` for posts, `category/[category].astro` for category listings
 
 ### Calendar Integration
@@ -234,6 +244,7 @@ Use imperative sentence case: "Revise homepage content..." or "Add new blog post
 | Framework | Astro 5 |
 | Content | Markdown/MDX with frontmatter |
 | Styling | CSS with custom properties |
+| Auth | AWS Cognito (via Amplify) |
 | Hosting | AWS S3 (static files) |
 | CDN | AWS CloudFront |
 | DNS | AWS Route 53 |
