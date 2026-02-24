@@ -277,6 +277,34 @@ a:focus-visible {
 }
 
 /* ============================================
+   FORM ELEMENTS
+   ============================================ */
+
+/* Theme-aware select dropdowns */
+select {
+  color-scheme: light dark;
+}
+
+:root[data-theme="light"] select {
+  color-scheme: light;
+}
+
+:root:not([data-theme="light"]) select {
+  color-scheme: dark;
+}
+
+/* Select option styling - must use solid colors (CSS vars don't work in <option>) */
+:root[data-theme="light"] select option {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+:root:not([data-theme="light"]) select option {
+  background-color: #1a1a1a;
+  color: #e2e8f0;
+}
+
+/* ============================================
    MOBILE RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
