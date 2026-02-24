@@ -27,10 +27,7 @@ import Layout from '../../layouts/Layout.astro';
         <div class="form-group">
           <label for="bike">Bike</label>
           <select id="bike" name="bike">
-            <option value="">No bike</option>
-            <option value="d8454deb-4ac6-4ed3-8c46-255c293685f4">KX450F (2014)</option>
-            <option value="9f803ba6-27db-4f7c-8403-7118b5b49035">Z125 (2018)</option>
-            <option value="37053aac-a94d-43d4-a523-43c8b9fc6686">ZX6R (2009)</option>
+            <option value="">Loading bikes...</option>
           </select>
         </div>
         <div class="form-group">
@@ -74,13 +71,10 @@ import Layout from '../../layouts/Layout.astro';
   import { configureAuth, getJwtToken, signOut } from '../../services/auth';
 
   const API_URL = 'https://api.staubracing.com/maintenance';
+  const BIKES_API_URL = 'https://api.staubracing.com/bikes/me';
 
-  // Bike UUID to friendly name mapping
-  const bikeNames: Record<string, string> = {
-    'd8454deb-4ac6-4ed3-8c46-255c293685f4': 'KX450F',
-    '9f803ba6-27db-4f7c-8403-7118b5b49035': 'Z125',
-    '37053aac-a94d-43d4-a523-43c8b9fc6686': 'ZX6R'
-  };
+  // Bike UUID to friendly name mapping (populated dynamically)
+  const bikeNames: Record<string, string> = {};
 
   // Initialize Cognito
   configureAuth();
@@ -102,6 +96,70 @@ import Layout from '../../layouts/Layout.astro';
   // Redirect to login
   function redirectToLogin() {
     window.location.href = '/admin/login';
+  }
+
+  // Fetch bikes and populate dropdown
+  async function loadBikes() {
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+
+    const bikeSelect = document.getElementById('bike') as HTMLSelectElement;
+
+    try {
+      const response = await fetch(BIKES_API_URL, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const bikes = await response.json();
+        renderBikeOptions(bikes);
+      } else if (response.status === 401) {
+        await signOut();
+        redirectToLogin();
+      } else {
+        // Show empty state on error
+        bikeSelect.textContent = '';
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'No bike';
+        bikeSelect.appendChild(defaultOption);
+      }
+    } catch {
+      bikeSelect.textContent = '';
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'No bike';
+      bikeSelect.appendChild(defaultOption);
+    }
+  }
+
+  function renderBikeOptions(bikes: any[]) {
+    const bikeSelect = document.getElementById('bike') as HTMLSelectElement;
+
+    // Clear existing options
+    bikeSelect.textContent = '';
+
+    // Add default "No bike" option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'No bike';
+    bikeSelect.appendChild(defaultOption);
+
+    // Add bike options and populate name mapping
+    bikes.forEach(bike => {
+      const option = document.createElement('option');
+      option.value = bike.id;
+      option.textContent = `${bike.make} ${bike.model} (${bike.year})`;
+      bikeSelect.appendChild(option);
+
+      // Populate bikeNames for task display
+      bikeNames[bike.id] = `${bike.make} ${bike.model}`;
+    });
   }
 
   // Fetch recent tasks
@@ -209,7 +267,8 @@ import Layout from '../../layouts/Layout.astro';
     }
   }
 
-  // Load tasks on page load
+  // Load bikes and tasks on page load
+  loadBikes();
   loadRecentTasks();
 
   form.addEventListener('submit', async (e) => {
