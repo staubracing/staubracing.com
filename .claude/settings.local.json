@@ -15,7 +15,9 @@
       "Bash(gh run:*)",
       "Bash(which bwrap:*)",
       "Bash(bwrap:*)",
-      "Bash(yarn add:*)"
+      "Bash(yarn add:*)",
+      "Bash(ulimit:*)",
+      "Bash(lsof)"
     ]
   },
   "enableAllProjectMcpServers": true,
