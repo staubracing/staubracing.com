@@ -1,9 +1,9 @@
-name: Weekly Calendar Refresh
+name: Scheduled Data Refresh
 
 on:
   schedule:
-    # Run every Monday at 6am UTC (midnight Central Time)
-    - cron: '0 6 * * 1'
+    # Run daily at 2 AM UTC for maintenance sync
+    - cron: '0 2 * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -17,6 +17,15 @@ jobs:
         with:
           node-version: "20"
       - run: yarn install
+
+      # Sync maintenance data from API before build
+      - name: Sync maintenance data
+        run: yarn sync:maintenance
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
       - run: yarn build
         env:
           GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}

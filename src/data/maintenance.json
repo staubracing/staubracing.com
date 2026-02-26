@@ -1,47 +1,26 @@
 {
-  "lastUpdated": "2026-02-25",
+  "lastUpdated": "2026-02-26",
   "items": [
     {
-      "id": "kx450f-cyclinder repair",
-      "bike": "KX450F",
-      "task": "Cyclinder repair",
-      "priority": "medium",
-      "notes": "Last repaired: Dec 2025"
-    },
-    {
-      "id": "kx450f-aprilia-swing arm mod repair",
-      "bike": "KX450F",
-      "task": "Aprilia swing arm mount repair",
+      "id": "kawasaki-zx6r-replace-engine",
+      "bike": "Kawasaki ZX6R",
+      "task": "Replace engine",
       "priority": "high",
-      "notes": "Last repaired: Feb 2026"
+      "notes": ""
     },
     {
-      "id": "zx6r-oil change",
-      "bike": "ZX6R",
-      "task": "Oil change",
-      "priority": "medium",
-      "notes": "After waterpump repair change oil"
-    },
-    {
-      "id": "zx6r-coolant change",
-      "bike": "ZX6R",
-      "task": "Coolant change",
-      "priority": "low",
-      "notes": "Last changed: Dec 2025"
-    },
-    {
-      "id": "zx6r-Water pump repair",
-      "bike": "ZX6R",
-      "task": "Water pump repair",
-      "priority": "low",
-      "notes": "Last repaired: Dec 2025"
-    },
-    {
-      "id": "kx450f-front brake pad replacement",
-      "bike": "KX450F",
-      "task": "Front brake pad replacement",
+      "id": "kawasaki-kx450f-this-is-testing-the-new-api-handler",
+      "bike": "Kawasaki KX450F",
+      "task": "This is testing the new API handler",
       "priority": "high",
-      "notes": "Last replaced: Feb 2026"
+      "notes": "A test - Delete later"
+    },
+    {
+      "id": "kawasaki-kx450f-kx-needs-oil",
+      "bike": "Kawasaki KX450F",
+      "task": "KX needs oil",
+      "priority": "high",
+      "notes": "yup"
     }
   ]
 }

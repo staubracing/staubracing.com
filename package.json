@@ -4,12 +4,15 @@
   "license": "MIT",
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@astrojs/mdx": "4.3.13",
     "@aws-amplify/auth": "^6.19.1",
     "@aws-amplify/core": "^6.16.1",
+    "@aws-sdk/client-secrets-manager": "^3.700.0",
     "astro": "^5.17.3",
     "aws-amplify": "^6.16.2"
   },
@@ -17,6 +20,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "sync:maintenance": "tsx scripts/sync-maintenance.ts"
   }
 }
