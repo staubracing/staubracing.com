@@ -64,6 +64,15 @@ import Layout from '../../layouts/Layout.astro';
         <p class="empty-state">Loading...</p>
       </div>
     </div>
+
+    <div class="sync-section">
+      <button type="button" class="sync-btn" id="sync-btn">
+        <span class="sync-icon">🔄</span>
+        <span class="sync-text">Sync & Publish</span>
+      </button>
+      <p class="sync-hint">Updates the public maintenance page with current tasks</p>
+      <p id="sync-status" class="sync-status"></p>
+    </div>
   </section>
 </Layout>
 
@@ -72,6 +81,7 @@ import Layout from '../../layouts/Layout.astro';
 
   const API_URL = 'https://api.staubracing.com/maintenance';
   const BIKES_API_URL = 'https://api.staubracing.com/bikes/me';
+  const ADMIN_API_URL = 'https://api.staubracing.com/admin';
 
   // Bike UUID to friendly name mapping (populated dynamically)
   const bikeNames: Record<string, string> = {};
@@ -499,6 +509,52 @@ import Layout from '../../layouts/Layout.astro';
     localStorage.removeItem('maintenance_api_key');
     redirectToLogin();
   });
+
+  // Sync button handler
+  const syncBtn = document.getElementById('sync-btn') as HTMLButtonElement;
+  const syncStatus = document.getElementById('sync-status') as HTMLElement;
+
+  syncBtn?.addEventListener('click', async () => {
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+
+    syncBtn.disabled = true;
+    syncBtn.innerHTML = '<span class="sync-icon">⏳</span><span class="sync-text">Triggering...</span>';
+    syncStatus.textContent = '';
+    syncStatus.className = 'sync-status';
+
+    try {
+      const response = await fetch(`${ADMIN_API_URL}/trigger-sync`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        syncStatus.textContent = '✅ Sync triggered! Site will update in ~2 minutes.';
+        syncStatus.classList.add('success');
+      } else if (response.status === 401) {
+        await signOut();
+        redirectToLogin();
+      } else {
+        syncStatus.textContent = data.error || 'Failed to trigger sync';
+        syncStatus.classList.add('error');
+      }
+    } catch {
+      syncStatus.textContent = 'Could not connect to API';
+      syncStatus.classList.add('error');
+    }
+
+    syncBtn.disabled = false;
+    syncBtn.innerHTML = '<span class="sync-icon">🔄</span><span class="sync-text">Sync & Publish</span>';
+  });
 </script>
 
 <style>
@@ -821,6 +877,61 @@ import Layout from '../../layouts/Layout.astro';
 
   .submit-btn.edit-mode {
     background: var(--accent-electric);
+  }
+
+  .sync-section {
+    border-top: 1px solid var(--surface-border);
+    padding-top: 1.5rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .sync-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--accent-racing);
+    background: transparent;
+    color: var(--accent-racing);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .sync-btn:hover:not(:disabled) {
+    background: var(--accent-racing);
+    color: white;
+  }
+
+  .sync-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .sync-icon {
+    font-size: 1.1rem;
+  }
+
+  .sync-hint {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .sync-status {
+    margin: 0.75rem 0 0 0;
+    font-size: 0.9rem;
+  }
+
+  .sync-status.success {
+    color: var(--accent-racing);
+  }
+
+  .sync-status.error {
+    color: var(--accent-amber);
   }
 
   @media (max-width: 480px) {
