@@ -1,40 +1,47 @@
 {
-  "lastUpdated": "2026-02-16",
+  "lastUpdated": "2026-02-25",
   "items": [
     {
-      "id": "zx6r-brake-pads",
-      "bike": "ZX6R",
-      "task": "Replace front brake pads",
-      "priority": "high",
-      "notes": "EBC HH sintered pads recommended"
+      "id": "kx450f-cyclinder repair",
+      "bike": "KX450F",
+      "task": "Cyclinder repair",
+      "priority": "medium",
+      "notes": "Last repaired: Dec 2025"
     },
     {
-      "id": "kx450f-oil-change",
+      "id": "kx450f-aprilia-swing arm mod repair",
       "bike": "KX450F",
+      "task": "Aprilia swing arm mount repair",
+      "priority": "high",
+      "notes": "Last repaired: Feb 2026"
+    },
+    {
+      "id": "zx6r-oil change",
+      "bike": "ZX6R",
       "task": "Oil change",
       "priority": "medium",
+      "notes": "After waterpump repair change oil"
+    },
+    {
+      "id": "zx6r-coolant change",
+      "bike": "ZX6R",
+      "task": "Coolant change",
+      "priority": "low",
       "notes": "Last changed: Dec 2025"
     },
     {
-      "id": "zx6r-chain-sprocket",
+      "id": "zx6r-Water pump repair",
       "bike": "ZX6R",
-      "task": "Inspect chain and sprocket",
-      "priority": "medium",
-      "notes": "Check for wear, adjust tension if needed"
+      "task": "Water pump repair",
+      "priority": "low",
+      "notes": "Last repaired: Dec 2025"
     },
     {
-      "id": "kx450f-air-filter",
+      "id": "kx450f-front brake pad replacement",
       "bike": "KX450F",
-      "task": "Clean air filter",
-      "priority": "low",
-      "notes": "After last ride at the track"
-    },
-    {
-      "id": "zx6r-coolant",
-      "bike": "ZX6R",
-      "task": "Flush and replace coolant",
-      "priority": "low",
-      "notes": "Due before first race of season"
+      "task": "Front brake pad replacement",
+      "priority": "high",
+      "notes": "Last replaced: Feb 2026"
     }
   ]
 }
