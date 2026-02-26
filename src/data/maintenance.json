@@ -2,10 +2,10 @@
   "lastUpdated": "2026-02-26",
   "items": [
     {
-      "id": "kawasaki-zx6r-replace-engine",
+      "id": "kawasaki-zx6r-replace-all",
       "bike": "Kawasaki ZX6R",
-      "task": "Replace engine",
-      "priority": "high",
+      "task": "Replace all",
+      "priority": "low",
       "notes": ""
     },
     {
