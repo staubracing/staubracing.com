@@ -25,7 +25,9 @@ yarn astro check  # TypeScript validation
 ```
 
 ### Deployment
+
 Deployed automatically via GitHub Actions on push to `main`:
+
 - Builds with `astro build`
 - Syncs `dist/` to AWS S3
 - Invalidates CloudFront cache
@@ -33,6 +35,7 @@ Deployed automatically via GitHub Actions on push to `main`:
 No manual deploy command needed — just `git push`.
 
 **Required GitHub Secrets:**
+
 - `GOOGLE_CALENDAR_API_KEY` - For calendar integration
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` - S3/CloudFront access
 - `CLOUDFRONT_DISTRIBUTION_ID` - Cache invalidation
@@ -40,11 +43,13 @@ No manual deploy command needed — just `git push`.
 **Local development requires Node.js 20+**
 
 **Production gotcha:** S3/CloudFront serves URLs with trailing slashes (`/about/`) while local dev does not (`/about`). Always normalize paths when comparing `Astro.url.pathname`:
+
 ```javascript
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ```
 
 ### Media Helper Scripts
+
 ```bash
 node scripts/add-images.js create-folders           # Scaffold category directories
 node scripts/add-images.js generate-html <post>      # Print Markdown snippets for images
@@ -115,6 +120,7 @@ staubracing.com/
 ## Content Collections
 
 Blog posts use Astro's content collection system with schema validation in `src/content/config.ts`. Required frontmatter fields:
+
 - `title` - Post title
 - `date` - Publication date
 - `tags` - Array of tags
@@ -131,11 +137,13 @@ Categories are configured in `src/content/categories.json` with associated emoji
 ## Architecture
 
 ### Site Structure
+
 Main navigation: Home, Racing, Workshop, Code, Journal, Contact
 
 Each section page (racing, workshop, code, journal) aggregates blog posts from its category and may include section-specific content.
 
 ### Routing
+
 - File-based routing in `src/pages/`
 - Static pages: `index.astro`, `racing.astro`, `workshop.astro`, `code.astro`, `journal.astro`, `contact.astro`, `links.astro`, `calendar.astro`, `maintenance.astro`
 - Admin pages: `admin/login.astro`, `admin/maintenance.astro` (API key auth required)
@@ -143,11 +151,13 @@ Each section page (racing, workshop, code, journal) aggregates blog posts from i
 - Dynamic: `blog/[...slug].astro` for posts, `category/[category].astro` for category listings
 
 ### Calendar Integration
+
 The race calendar (`/calendar`) displays Staub Racing's season schedule with a clean event list + toggle to full Google Calendar view.
 
 **Current Status:** Mock data in `src/data/mock-events.ts`. Ready for Google Calendar API integration.
 
 **Calendar Details:**
+
 - **Calendar ID:** `2ee5866170c9db9ff52e5c925cb4d49281e3b1efff7a28d50f1677ffe12d975b@group.calendar.google.com`
 - **Event type classification (for API):**
   - `CRA` in title → Race Weekend (🏁 lime badge)
@@ -155,12 +165,14 @@ The race calendar (`/calendar`) displays Staub Racing's season schedule with a c
   - Other → Track Day (default)
 
 **API Integration TODO:**
+
 1. Create Google Cloud project → Enable Calendar API
 2. Generate API key (restrict to Calendar API only)
 3. Add `GOOGLE_CALENDAR_API_KEY` to `.env`
 4. Replace mock data fetch in `calendar.astro` frontmatter
 
 ### Styling
+
 - CSS custom properties in `src/styles/theme.css` for theming
 - Dark mode by default, light mode via `ThemeToggle` component
 - Racing theme with green accents (#1a8754)
@@ -168,9 +180,11 @@ The race calendar (`/calendar`) displays Staub Racing's season schedule with a c
 - Mobile-first responsive design
 
 ### Page Headers
+
 Section pages use clean, minimal headers with just `h1` and `p` — no redundant category pills. The navigation and theming already provide context.
 
 **Pattern:**
+
 ```astro
 <header class="section-header">
   <h1>{title}</h1>
@@ -179,11 +193,13 @@ Section pages use clean, minimal headers with just `h1` and `p` — no redundant
 ```
 
 **Where `.category-pill` IS still used:**
+
 - Homepage featured post cards (each card needs its category label)
 - `category/[category].astro` (dynamic category pages)
 - `index.astro` post cards
 
 **Where `.category-pill` is NOT used:**
+
 - Main section pages (`racing.astro`, `workshop.astro`, `code.astro`, `journal.astro`)
 - Sub-section pages (`racing/reports.astro`, `code/posts.astro`)
 - Racing-related pages (`calendar.astro`, `maintenance.astro`)
@@ -191,6 +207,7 @@ Section pages use clean, minimal headers with just `h1` and `p` — no redundant
 - Admin pages (`admin/login.astro`, `admin/maintenance.astro`)
 
 ### Navigation Active States
+
 The main navigation highlights the current page/section with a racing green filled pill. Path matching handles trailing slashes for production compatibility:
 
 ```javascript
@@ -205,16 +222,20 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ```
 
 ### Brand Accent Consistency
+
 The racing green (`--accent-racing`) is used consistently for the "Staub" brand across:
+
 - Header logo: `.brand-primary` class
 - Footer brand: `.brand-accent` within `.footer-brand`
 - Homepage hero: `.brand-accent` class
 - Active nav pill: `.site-nav a.active`
 
 ### Layouts
+
 - `src/layouts/Layout.astro` — Shared page shell with embedded navigation and footer (no separate Nav/Footer components)
 
 ### Key Components
+
 - `ThemeToggle.astro` — Dark/light mode switching with localStorage persistence
 - `MediaDisplay.astro` — Renders images, videos, and embedded content for blog posts
 - `SubNav.astro` — Section-specific navigation with category links
@@ -227,10 +248,12 @@ The racing green (`--accent-racing`) is used consistently for the "Staub" brand 
 ### Component Patterns
 
 **Variant Props** — Components like `SocialIcons.astro` support multiple rendering modes via a `variant` prop:
+
 ```astro
 <SocialIcons variant="cards" />   <!-- Contact page: full cards with icons -->
 <SocialIcons variant="compact" /> <!-- Footer: small icon buttons -->
 ```
+
 This pattern keeps shared data (links, icons) in one place while allowing different visual presentations.
 
 ## Commit Style
@@ -239,18 +262,61 @@ Use imperative sentence case: "Revise homepage content..." or "Add new blog post
 
 ## Tech Stack
 
-| Layer | Tool |
-|-------|------|
-| Framework | Astro 5 |
-| Content | Markdown/MDX with frontmatter |
-| Styling | CSS with custom properties |
-| Auth | AWS Cognito (via Amplify) |
-| Hosting | AWS S3 (static files) |
-| CDN | AWS CloudFront |
-| DNS | AWS Route 53 |
-| SSL | AWS Certificate Manager |
-| CI/CD | GitHub Actions |
-| Package Manager | Yarn |
+| Layer           | Tool                          |
+| --------------- | ----------------------------- |
+| Framework       | Astro 5                       |
+| Content         | Markdown/MDX with frontmatter |
+| Styling         | CSS with custom properties    |
+| Auth            | AWS Cognito (via Amplify)     |
+| Hosting         | AWS S3 (static files)         |
+| CDN             | AWS CloudFront                |
+| DNS             | AWS Route 53                  |
+| SSL             | AWS Certificate Manager       |
+| CI/CD           | GitHub Actions                |
+| Package Manager | Yarn                          |
+
+## Backend API
+
+The backend is a standalone Express server (not Lambda) running on a Raspberry Pi called "arrakis" (staubracing@raspberrypi).
+
+**Repo:** github.com/staubracing/moto-lambda-API (branch: main)
+**Live URL:** https://api.staubracing.com (via Cloudflare Tunnel)
+**Local:** http://127.0.0.1:3001
+
+**Deploy workflow:**
+
+1. Edit code on dev laptop
+2. Push to GitHub
+3. SSH into arrakis
+4. git pull && yarn build && pm2 restart moto-api
+
+**Stack:**
+
+- Express + TypeScript
+- pm2 for process management (survives reboots via systemd)
+- PostgreSQL in Docker container (postgres-db)
+- Cloudflare Tunnel for public access (no exposed home IP)
+
+**Database:**
+
+- Container: postgres-db
+- Connect: docker exec -it postgres-db psql -U racer106 -d moto_db_local
+- Key tables: users, motorcycles, maintenance_records, tire_info, suspension, bike_settings
+
+**Auth:**
+
+- Dual auth: Cognito JWT (Bearer token) OR x-api-key header
+- cognitoAuth middleware validates all routes
+- req.user.sub = Cognito UUID, maps to users.cognito_user_id
+- Always look up local user via User.findByCognitoUserId(sub) before using user.fields.id
+
+**API Endpoints:**
+
+- GET /maintenance - returns records for authenticated user only
+- POST /maintenance - creates record with user_id from JWT
+- PATCH /maintenance/:id - updates record, verifies ownership
+- DELETE /maintenance/:id - deletes record, verifies ownership
+- GET /bikes/me - returns bikes owned by authenticated user
 
 ## Migration Complete
 
@@ -269,10 +335,12 @@ See `docs/MIGRATION_PLAN.md` for historical reference.
 Custom skills and agents for this project:
 
 **Skills** (invoked with `/skill-name`):
+
 - `new-post` — Scaffold a new blog post with proper frontmatter and image folder
 - `add-maintenance` — Add a maintenance task to the tracker
 
 **Agents**:
+
 - `content-reviewer` — Validates blog posts for quality and consistency
 
 ## Documentation
@@ -281,16 +349,16 @@ Documentation is organized by purpose using the [Diátaxis framework](https://di
 
 ### Quick Reference
 
-| I want to... | See |
-|--------------|-----|
-| Change colors/theme | [guides/theme-customization.md](docs/guides/theme-customization.md) |
-| Add images to posts | [guides/adding-images.md](docs/guides/adding-images.md) |
-| Create a new post | [guides/creating-posts.md](docs/guides/creating-posts.md) |
-| Understand architecture | [reference/architecture.md](docs/reference/architecture.md) |
-| Look up frontmatter fields | [reference/content-schema.md](docs/reference/content-schema.md) |
-| Use the Maintenance API | [reference/maintenance-api.md](docs/reference/maintenance-api.md) |
+| I want to...                | See                                                                     |
+| --------------------------- | ----------------------------------------------------------------------- |
+| Change colors/theme         | [guides/theme-customization.md](docs/guides/theme-customization.md)     |
+| Add images to posts         | [guides/adding-images.md](docs/guides/adding-images.md)                 |
+| Create a new post           | [guides/creating-posts.md](docs/guides/creating-posts.md)               |
+| Understand architecture     | [reference/architecture.md](docs/reference/architecture.md)             |
+| Look up frontmatter fields  | [reference/content-schema.md](docs/reference/content-schema.md)         |
+| Use the Maintenance API     | [reference/maintenance-api.md](docs/reference/maintenance-api.md)       |
 | Understand design decisions | [explanation/design-decisions.md](docs/explanation/design-decisions.md) |
-| Plan content | [planning/blog-ideas.md](docs/planning/blog-ideas.md) |
+| Plan content                | [planning/blog-ideas.md](docs/planning/blog-ideas.md)                   |
 
 ### Documentation Index
 
