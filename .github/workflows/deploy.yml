@@ -5,12 +5,18 @@ on:
     branches: [main]
   workflow_dispatch:  # Allow manual trigger from admin page
 
+permissions:
+  contents: write  # Allow pushing commits back to repo
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need history for proper git operations
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -24,6 +30,19 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
+
+      # Commit synced data back to repo (keeps local in sync with database)
+      - name: Commit synced maintenance data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet src/data/maintenance.json; then
+            echo "No changes to commit"
+          else
+            git add src/data/maintenance.json
+            git commit -m "chore: sync maintenance data from database [skip ci]"
+            git push
+          fi
 
       - run: yarn build
         env:
