@@ -2,25 +2,18 @@
   "lastUpdated": "2026-02-26",
   "items": [
     {
-      "id": "kawasaki-zx6r-replace-all",
+      "id": "kawasaki-zx6r-repair-water-pump",
       "bike": "Kawasaki ZX6R",
-      "task": "Replace all",
-      "priority": "low",
+      "task": "Repair Water Pump",
+      "priority": "high",
       "notes": ""
     },
     {
-      "id": "kawasaki-kx450f-this-is-testing-the-new-api-handler",
+      "id": "kawasaki-kx450f-replace-cylinder-head",
       "bike": "Kawasaki KX450F",
-      "task": "This is testing the new API handler",
-      "priority": "high",
-      "notes": "A test - Delete later"
-    },
-    {
-      "id": "kawasaki-kx450f-kx-needs-oil",
-      "bike": "Kawasaki KX450F",
-      "task": "KX needs oil",
-      "priority": "high",
-      "notes": "yup"
+      "task": "Replace Cylinder Head",
+      "priority": "medium",
+      "notes": ""
     }
   ]
 }
