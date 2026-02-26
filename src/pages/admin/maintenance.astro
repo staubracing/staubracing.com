@@ -84,6 +84,9 @@ import Layout from '../../layouts/Layout.astro';
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
   const recentList = document.getElementById('recent-list') as HTMLElement;
 
+  // Track edit mode
+  let editingTaskId: string | null = null;
+
   // Helper to safely show empty/error states
   function showEmptyState(message: string) {
     recentList.textContent = '';
@@ -233,8 +236,35 @@ import Layout from '../../layouts/Layout.astro';
 
       taskContent.appendChild(taskTitle);
       taskContent.appendChild(taskBike);
+
+      // Action buttons container
+      const taskActions = document.createElement('div');
+      taskActions.className = 'task-actions';
+
+      // Edit button
+      const editBtn = document.createElement('button');
+      editBtn.className = 'task-action-btn edit-btn';
+      editBtn.title = 'Edit task';
+      editBtn.innerHTML = '✏️';
+      editBtn.addEventListener('click', () => startEdit(task));
+
+      // Delete button
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'task-action-btn delete-btn';
+      deleteBtn.title = 'Delete task';
+      deleteBtn.innerHTML = '🗑️';
+      deleteBtn.addEventListener('click', () => {
+        if (confirm('Delete this task?')) {
+          deleteTask(task.id);
+        }
+      });
+
+      taskActions.appendChild(editBtn);
+      taskActions.appendChild(deleteBtn);
+
       taskItem.appendChild(toggleBtn);
       taskItem.appendChild(taskContent);
+      taskItem.appendChild(taskActions);
       recentList.appendChild(taskItem);
     });
   }
@@ -267,12 +297,142 @@ import Layout from '../../layouts/Layout.astro';
     }
   }
 
+  async function deleteTask(id: string) {
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        // If we're editing this task, cancel edit mode
+        if (editingTaskId === id) {
+          cancelEdit();
+        }
+        loadRecentTasks();
+      } else if (response.status === 401) {
+        await signOut();
+        redirectToLogin();
+      }
+    } catch (err) {
+      console.error('Failed to delete task:', err);
+    }
+  }
+
+  function startEdit(task: any) {
+    editingTaskId = task.id;
+
+    // Populate form with task data
+    (document.getElementById('title') as HTMLInputElement).value = task.title;
+    (document.getElementById('bike') as HTMLSelectElement).value = task.bike_id || '';
+    (document.getElementById('priority') as HTMLSelectElement).value = task.priority;
+    (document.getElementById('notes') as HTMLTextAreaElement).value = task.notes || '';
+
+    // Change button text
+    submitBtn.innerHTML = '<span class="btn-text">Update Task</span><span class="btn-arrow">✓</span>';
+    submitBtn.classList.add('edit-mode');
+
+    // Add cancel button if not exists
+    if (!document.getElementById('cancel-edit-btn')) {
+      const cancelBtn = document.createElement('button');
+      cancelBtn.id = 'cancel-edit-btn';
+      cancelBtn.type = 'button';
+      cancelBtn.className = 'cancel-btn';
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.addEventListener('click', cancelEdit);
+      submitBtn.parentElement?.insertBefore(cancelBtn, submitBtn.nextSibling);
+    }
+
+    // Scroll to form
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function cancelEdit() {
+    editingTaskId = null;
+    form.reset();
+    (document.getElementById('bike') as HTMLSelectElement).value = '';
+    (document.getElementById('priority') as HTMLSelectElement).value = 'medium';
+    submitBtn.innerHTML = '<span class="btn-text">Add Task</span><span class="btn-arrow">+</span>';
+    submitBtn.classList.remove('edit-mode');
+    statusMsg.textContent = '';
+    statusMsg.className = 'status-msg';
+
+    // Remove cancel button
+    document.getElementById('cancel-edit-btn')?.remove();
+  }
+
+  async function updateTask(id: string) {
+    const token = await getJwtToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+
+    const title = (document.getElementById('title') as HTMLInputElement).value;
+    const bikeId = (document.getElementById('bike') as HTMLSelectElement).value;
+    const priority = (document.getElementById('priority') as HTMLSelectElement).value;
+    const notes = (document.getElementById('notes') as HTMLTextAreaElement).value;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="btn-text">Updating...</span>';
+    statusMsg.textContent = '';
+    statusMsg.className = 'status-msg';
+
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          bike_id: bikeId || null,
+          priority,
+          notes: notes || null
+        })
+      });
+
+      if (response.ok) {
+        cancelEdit();
+        loadRecentTasks();
+      } else if (response.status === 401) {
+        await signOut();
+        redirectToLogin();
+      } else {
+        const data = await response.json();
+        statusMsg.textContent = data.error || data.message || 'Failed to update task';
+        statusMsg.classList.add('error');
+      }
+    } catch (err) {
+      statusMsg.textContent = 'Could not connect to API';
+      statusMsg.classList.add('error');
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="btn-text">Update Task</span><span class="btn-arrow">✓</span>';
+  }
+
   // Load bikes and tasks on page load
   loadBikes();
   loadRecentTasks();
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // If in edit mode, update instead of create
+    if (editingTaskId) {
+      await updateTask(editingTaskId);
+      return;
+    }
 
     const token = await getJwtToken();
     if (!token) {
@@ -610,6 +770,57 @@ import Layout from '../../layouts/Layout.astro';
   :global(.task-bike) {
     font-size: 0.8rem;
     color: var(--text-secondary);
+  }
+
+  :global(.task-actions) {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  :global(.task-action-btn) {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+  }
+
+  :global(.task-action-btn:hover) {
+    opacity: 1;
+    background: var(--overlay-base-light);
+  }
+
+  :global(.delete-btn:hover) {
+    background: var(--overlay-warning-light);
+  }
+
+  .cancel-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--surface-border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .cancel-btn:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  .submit-btn.edit-mode {
+    background: var(--accent-electric);
   }
 
   @media (max-width: 480px) {
