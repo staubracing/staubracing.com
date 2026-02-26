@@ -2,6 +2,13 @@
   "lastUpdated": "2026-02-26",
   "items": [
     {
+      "id": "kawasaki-kx450f-finish-swingarm-mod",
+      "bike": "Kawasaki KX450F",
+      "task": "Finish Swingarm Mod",
+      "priority": "high",
+      "notes": ""
+    },
+    {
       "id": "kawasaki-zx6r-repair-water-pump",
       "bike": "Kawasaki ZX6R",
       "task": "Repair Water Pump",
@@ -12,7 +19,7 @@
       "id": "kawasaki-kx450f-replace-cylinder-head",
       "bike": "Kawasaki KX450F",
       "task": "Replace Cylinder Head",
-      "priority": "medium",
+      "priority": "high",
       "notes": ""
     }
   ]
