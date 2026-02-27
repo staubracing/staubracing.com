@@ -33,4 +33,15 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// TV Help Guides collection for MIL
+const guides = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number().default(99), // Controls sort order on landing page
+    icon: z.string().default("📺"), // Emoji icon for the card
+  }),
+});
+
+export const collections = { blog, guides };

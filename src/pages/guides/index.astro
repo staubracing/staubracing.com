@@ -1,0 +1,168 @@
+---
+/**
+ * TV Help Guides Landing Page
+ *
+ * Entry point for QR code scan. Shows all available guides
+ * as large tappable cards sorted by the `order` frontmatter field.
+ */
+
+import { getCollection } from "astro:content";
+import GuideLayout from "../../layouts/GuideLayout.astro";
+
+// Fetch all guides and sort by order
+const guides = (await getCollection("guides")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<GuideLayout title="TV Help" description="Tap the button that matches your problem." showBack={false}>
+  <header class="landing-header">
+    <h2>Need help with the TV?</h2>
+    <p class="subtitle">Tap the button that matches your problem.</p>
+  </header>
+
+  <div class="guide-cards">
+    {guides.map((guide) => (
+      <a href={`/guides/${guide.slug}`} class="guide-card">
+        <span class="card-icon">{guide.data.icon}</span>
+        <div class="card-content">
+          <span class="card-title">{guide.data.title}</span>
+          <span class="card-description">{guide.data.description}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <div class="help-section">
+    <p>Don't see your problem here? Call <strong>Dev</strong> for help.</p>
+  </div>
+</GuideLayout>
+
+<style>
+  /* ============================================
+     LANDING PAGE STYLES
+     ============================================ */
+
+  .landing-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .landing-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: #1A1A1A;
+  }
+
+  @media (min-width: 600px) {
+    .landing-header h2 {
+      font-size: 32px;
+    }
+  }
+
+  .subtitle {
+    font-size: 20px;
+    color: #555;
+    margin: 0;
+  }
+
+  /* ============================================
+     GUIDE CARDS
+     ============================================ */
+
+  .guide-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .guide-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 100px; /* Large touch target */
+    padding: 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    border: 2px solid transparent;
+  }
+
+  .guide-card:hover,
+  .guide-card:focus {
+    background-color: #E8F5EC;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    outline: none;
+  }
+
+  .guide-card:active {
+    background-color: #D4EBD9;
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .guide-card:focus-visible {
+    border-color: #2D7D46;
+  }
+
+  .card-icon {
+    font-size: 40px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F0F4F1;
+    border-radius: 12px;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1A1A1A;
+    line-height: 1.3;
+  }
+
+  .card-description {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  /* ============================================
+     HELP SECTION
+     ============================================ */
+
+  .help-section {
+    margin-top: 48px;
+    padding: 24px;
+    background: #F5F5F0;
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .help-section p {
+    font-size: 18px;
+    color: #555;
+    margin: 0;
+  }
+
+  .help-section strong {
+    color: #2D7D46;
+  }
+</style>

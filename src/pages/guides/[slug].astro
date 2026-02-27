@@ -1,0 +1,30 @@
+---
+/**
+ * Individual Guide Page
+ *
+ * Dynamic route that renders each guide with the GuideLayout.
+ * Uses getStaticPaths to pre-render all guides at build time.
+ */
+
+import { type CollectionEntry, getCollection } from "astro:content";
+import GuideLayout from "../../layouts/GuideLayout.astro";
+
+export async function getStaticPaths() {
+  const guides = await getCollection("guides");
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+interface Props {
+  guide: CollectionEntry<"guides">;
+}
+
+const { guide } = Astro.props;
+const { Content } = await guide.render();
+---
+
+<GuideLayout title={guide.data.title} description={guide.data.description}>
+  <Content />
+</GuideLayout>

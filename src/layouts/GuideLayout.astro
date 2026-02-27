@@ -1,0 +1,321 @@
+---
+/**
+ * GuideLayout - Standalone layout for TV Help Guides
+ *
+ * Optimized for 77-year-old non-technical users:
+ * - Large touch targets (56px minimum)
+ * - High contrast, warm background (#FAFAF8)
+ * - 22px body text with 1.75 line-height
+ * - 48px floating step number badges
+ * - No external dependencies
+ */
+
+interface Props {
+  title: string;
+  description?: string;
+  showBack?: boolean;
+}
+
+const { title, description, showBack = true } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description || "Step-by-step TV help guides"} />
+
+    <!-- Prevent phone numbers from becoming links on iOS -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- No external fonts - use system fonts for faster loading -->
+  </head>
+  <body>
+    <div class="container">
+      <header class="guide-header">
+        {showBack && (
+          <a href="/guides" class="back-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>All Guides</span>
+          </a>
+        )}
+        <h1>{title}</h1>
+        {description && <p class="description">{description}</p>}
+      </header>
+
+      <main class="guide-content">
+        <slot />
+      </main>
+
+      <footer class="guide-footer">
+        <p>Need more help? Call <strong>Dev</strong>.</p>
+      </footer>
+    </div>
+
+    <!-- Stuck? FAB -->
+    <a href="tel:+15055551234" class="fab" aria-label="Call for help">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <span>Stuck? Call Dev</span>
+    </a>
+  </body>
+</html>
+
+<style>
+  /* ============================================
+     GUIDE LAYOUT - Optimized for seniors
+     ============================================ */
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1.75;
+    color: #1A1A1A;
+    background-color: #FAFAF8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 20px 120px; /* Extra bottom padding for FAB */
+  }
+
+  @media (min-width: 600px) {
+    .container {
+      padding: 40px 32px 140px;
+    }
+  }
+
+  /* ============================================
+     HEADER
+     ============================================ */
+
+  .guide-header {
+    margin-bottom: 32px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 56px; /* Touch target */
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    color: #2D7D46;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    background: transparent;
+    transition: background-color 0.2s ease;
+  }
+
+  .back-link:hover,
+  .back-link:focus {
+    background-color: #E8F5EC;
+  }
+
+  .back-link:active {
+    background-color: #D4EBD9;
+  }
+
+  .back-link svg {
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 12px;
+    color: #1A1A1A;
+  }
+
+  @media (min-width: 600px) {
+    h1 {
+      font-size: 36px;
+    }
+  }
+
+  .description {
+    font-size: 20px;
+    color: #555;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ============================================
+     MAIN CONTENT - Step Styling
+     ============================================ */
+
+  .guide-content {
+    /* Content slot */
+  }
+
+  /* Headings within guide content */
+  .guide-content h2 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 32px 0 16px;
+    color: #1A1A1A;
+  }
+
+  @media (min-width: 600px) {
+    .guide-content h2 {
+      font-size: 28px;
+    }
+  }
+
+  /* Step styling - ordered lists become step cards */
+  .guide-content ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step;
+  }
+
+  .guide-content ol > li {
+    counter-increment: step;
+    position: relative;
+    padding: 20px 20px 20px 84px; /* Space for step number */
+    margin-bottom: 24px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    min-height: 80px; /* Comfortable touch target */
+  }
+
+  /* Step number badge */
+  .guide-content ol > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 16px;
+    top: 20px;
+    width: 48px;
+    height: 48px;
+    background: #2D7D46;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Paragraphs within steps */
+  .guide-content li p {
+    margin: 0;
+  }
+
+  .guide-content li p + p {
+    margin-top: 12px;
+  }
+
+  /* Strong text */
+  .guide-content strong {
+    font-weight: 700;
+    color: #1A1A1A;
+  }
+
+  /* Images */
+  .guide-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin: 16px 0;
+  }
+
+  /* Unordered lists (for reference) */
+  .guide-content ul {
+    padding-left: 24px;
+    margin: 16px 0;
+  }
+
+  .guide-content ul li {
+    margin-bottom: 8px;
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+
+  .guide-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 2px solid #E5E5E0;
+    text-align: center;
+  }
+
+  .guide-footer p {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+  }
+
+  .guide-footer strong {
+    color: #2D7D46;
+  }
+
+  /* ============================================
+     FLOATING ACTION BUTTON (FAB)
+     ============================================ */
+
+  .fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    background: #2D7D46;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(45, 125, 70, 0.4);
+    min-height: 56px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 100;
+  }
+
+  .fab:hover,
+  .fab:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 125, 70, 0.5);
+  }
+
+  .fab:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 12px rgba(45, 125, 70, 0.4);
+  }
+
+  .fab svg {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 600px) {
+    .fab {
+      bottom: 32px;
+      right: 32px;
+    }
+  }
+</style>
