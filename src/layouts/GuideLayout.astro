@@ -52,7 +52,7 @@ const { title, description, showBack = true } = Astro.props;
       </main>
 
       <footer class="guide-footer">
-        <p>Need more help? Call <strong>Dev</strong>.</p>
+        <p>Need more help? Call <a href="tel:+16514854167" class="footer-link">Dev</a>.</p>
       </footer>
     </div>
 
@@ -271,6 +271,25 @@ const { title, description, showBack = true } = Astro.props;
 
   .guide-footer strong {
     color: #2D7D46;
+  }
+
+  .footer-link {
+    color: #2D7D46;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 8px 12px;
+    margin: -8px -12px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .footer-link:hover,
+  .footer-link:focus {
+    background-color: #E8F5EC;
+  }
+
+  .footer-link:active {
+    background-color: #D4EBD9;
   }
 
   /* ============================================
