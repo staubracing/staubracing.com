@@ -158,7 +158,7 @@ The race calendar (`/calendar`) displays Staub Racing's season schedule with a c
 
 **Calendar Details:**
 
-- **Calendar ID:** `2ee5866170c9db9ff52e5c925cb4d49281e3b1efff7a28d50f1677ffe12d975b@group.calendar.google.com`
+- **Calendar ID:** Set in `GOOGLE_CALENDAR_ID` environment variable (see `.env.example`)
 - **Event type classification (for API):**
   - `CRA` in title → Race Weekend (🏁 lime badge)
   - `ZARS` in title → Track Day (🔧 blue badge)
@@ -300,7 +300,7 @@ The backend is a standalone Express server (not Lambda) running on a Raspberry P
 **Database:**
 
 - Container: postgres-db
-- Connect: docker exec -it postgres-db psql -U racer106 -d moto_db_local
+- Connect: `docker exec -it postgres-db psql -U <db_user> -d <db_name>` (see local credentials)
 - Key tables: users, motorcycles, maintenance_records, tire_info, suspension, bike_settings
 
 **Auth:**

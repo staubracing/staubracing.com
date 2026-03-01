@@ -21,22 +21,31 @@ const postsByCategory: Record<Category, typeof posts> = {
 
 <Layout title="StaubRacing - Racing, Code & Everything Between">
   <section class="hero" id="top">
-    <span class="hero-eyebrow pill">Engineer · Racer · Developer</span>
-    <div class="hero-brand">
-      <h1>Welcome to <span class="brand-accent">Staub</span>Racing!</h1>
+    <div class="hero-portrait">
+      <img
+        src="/images/StaubRacing-Profile-green.png"
+        alt="Chris Staub - Engineer, Racer, Developer"
+        class="portrait-image"
+        width="180"
+        height="180"
+        loading="eager"
+      />
+      <div class="portrait-glow" aria-hidden="true"></div>
     </div>
-    <p class="hero-subtitle">
-      I race motorcycles with more heart than skill, write code with more determination than genius, and document the whole beautiful disaster here.
-    </p>
-    <div class="hero-badge">
-      <span class="badge-item">EST 2020</span>
-      <span class="badge-divider">·</span>
-      <span class="badge-item">CRA #106</span>
+    <div class="hero-content">
+      <span class="hero-eyebrow pill">Engineer · Racer · Developer</span>
+      <div class="hero-brand">
+        <h1>Welcome to <span class="brand-accent">Staub</span>Racing!</h1>
+      </div>
+      <p class="hero-subtitle">
+        I race motorcycles with more heart than skill, write code with more determination than genius, and document the whole beautiful disaster here.
+      </p>
+      <div class="hero-badge">
+        <span class="badge-item">EST 2020</span>
+        <span class="badge-divider">·</span>
+        <span class="badge-item">CRA #106</span>
+      </div>
     </div>
-    <!-- <div class="hero-actions">
-      <a class="hero-button primary" href="/category/racing">Race prep &amp; builds →</a>
-      <a class="hero-button ghost" href="https://staubracing.com" target="_blank" rel="noreferrer">staubracing.com</a>
-    </div> -->
   </section>
 
   {featuredPosts.length > 0 && (
@@ -123,37 +132,82 @@ const postsByCategory: Record<Category, typeof posts> = {
 <style>
   .hero {
     display: grid;
-    gap: 1.5rem;
-    text-align: center;
-    padding: clamp(3rem, 10vw, 5rem) clamp(1rem, 4vw, 3.5rem);
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    padding: clamp(2.5rem, 8vw, 4rem) clamp(1.5rem, 5vw, 3.5rem);
     margin-top: 2rem;
     background: linear-gradient(140deg, color-mix(in srgb, var(--accent-racing) 15%, transparent), color-mix(in srgb, var(--accent-electric) 12%, transparent));
     border-radius: var(--radius-lg);
     border: 1px solid color-mix(in srgb, var(--accent-electric) 25%, var(--surface-border));
     box-shadow: var(--shadow-hard);
     backdrop-filter: blur(18px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-portrait {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .portrait-image {
+    width: clamp(120px, 18vw, 180px);
+    height: clamp(120px, 18vw, 180px);
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+    animation: portrait-float 6s ease-in-out infinite;
+  }
+
+  .portrait-glow {
+    position: absolute;
+    inset: -15%;
+    background: radial-gradient(circle at center, rgba(102, 187, 106, 0.25) 0%, transparent 60%);
+    z-index: 1;
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes portrait-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  .hero-content {
+    display: grid;
+    gap: 1rem;
+    text-align: left;
   }
 
   .hero-eyebrow {
-    justify-self: center;
+    justify-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
   }
 
   .hero h1 {
-    font-size: clamp(2.8rem, 6vw, 3.75rem);
+    font-size: clamp(2.2rem, 5vw, 3.25rem);
     font-family: var(--brand-font);
     letter-spacing: 0.08em;
+    margin: 0;
   }
 
   .brand-accent {
-    color: var(--accent-racing);
+    text-shadow: 0 0 30px rgba(102, 187, 106, 0.4);
   }
 
   .hero-badge {
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     font-size: 0.85rem;
     color: var(--text-secondary);
     letter-spacing: 0.1em;
@@ -166,55 +220,10 @@ const postsByCategory: Record<Category, typeof posts> = {
   }
 
   .hero-subtitle {
-    max-width: 680px;
-    margin: 0 auto;
-    font-size: 1.15rem;
-  }
-
-  .hero-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .hero-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.75rem;
-    border-radius: 999px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    border: 1px solid transparent;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border 0.2s ease;
-  }
-
-  .hero-button.primary {
-    background: var(--accent-racing);
-    color: var(--text-primary);
-    box-shadow: 0 15px 35px -20px rgba(26, 135, 84, 0.8);
-  }
-
-  .hero-button.primary:hover,
-  .hero-button.primary:focus-visible {
-    transform: translateY(-1px);
-    box-shadow: 0 20px 40px -18px rgba(26, 135, 84, 0.9);
-  }
-
-  .hero-button.ghost {
-    border-color: color-mix(in srgb, var(--accent-electric) 35%, transparent);
-    background: var(--overlay-base-medium);
-    color: var(--text-primary);
-  }
-
-  .hero-button.ghost:hover,
-  .hero-button.ghost:focus-visible {
-    border-color: color-mix(in srgb, var(--accent-electric) 60%, transparent);
-    background: var(--overlay-accent-medium);
-    transform: translateY(-1px);
+    max-width: 520px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
   }
 
   .section-heading {
@@ -398,7 +407,31 @@ const postsByCategory: Record<Category, typeof posts> = {
 
   @media (max-width: 768px) {
     .hero {
-      padding: 2.5rem 1.5rem;
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      gap: 1.75rem;
+    }
+
+    .hero-portrait {
+      justify-self: center;
+    }
+
+    .hero-content {
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow {
+      justify-self: center;
+    }
+
+    .hero-subtitle {
+      max-width: 100%;
+    }
+
+    .hero-badge {
+      justify-content: center;
     }
 
     .feature-grid,
