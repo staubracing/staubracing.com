@@ -45,6 +45,11 @@
           "title": "Creating the Perfect CLAUDE.md for Claude Code",
           "url": "https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/",
           "description": "Guide to structuring effective CLAUDE.md files for better AI assistance"
+        },
+        {
+          "title": "Claude Code for React & React Native Workflows",
+          "url": "https://medium.com/cars24/claude-code-for-react-react-native-workflows-that-actually-move-the-needle-33b8bb410b14",
+          "description": "Principal engineer's guide to Claude Code commands, skills, and subagents for frontend development"
         }
       ]
     }
