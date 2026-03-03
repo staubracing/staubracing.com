@@ -27,7 +27,10 @@ Once everything melted, the ice was gone but so was the water level in the radia
 
 The KX450 has a cracked cylinder head.
 
-<img src="/images/blog/racing/a-handful-of-minutes/20260201_120513.jpg" alt="Cracked cylinder head on the KX450 - the damage from frozen coolant" style="max-width: 600px; width: 100%; border-radius: 8px;" />
+<figure style="text-align: center;">
+  <img src="/images/blog/racing/a-handful-of-minutes/20260201_120513.jpg" alt="Cracked cylinder head on the KX450 - the damage from frozen coolant" style="display: block; margin: 0 auto; max-width: 600px; width: 100%; border-radius: 8px;" />
+  <figcaption style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">The crack runs along the cam chain side of the cylinder head — an $800 mistake from a handful of skipped minutes.</figcaption>
+</figure>
 
 Let that one sit for a second.
 
