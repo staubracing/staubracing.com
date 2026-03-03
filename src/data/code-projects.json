@@ -21,7 +21,7 @@
     {
       "name": "Moto-API",
       "status": "active",
-      "category": "API",
+      "category": "Backend",
       "description": "Serverless backend API for the Moto app with PostgreSQL",
       "tech": ["TypeScript", "Serverless Framework", "AWS Lambda", "PostgreSQL"],
       "link": null
