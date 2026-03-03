@@ -2,17 +2,26 @@
   "lastUpdated": "2026-02-16",
   "projects": [
     {
-      "name": "Moto Expo App",
+      "name": "Moto App Pro",
       "status": "active",
       "category": "Mobile Apps",
       "description": "React Native motorcycle tracking app with offline support and AWS backend",
-      "tech": ["React Native", "Expo 52", "TypeScript", "AWS Amplify", "React Navigation"],
+      "tech": [
+        "React Native",
+        "Expo 52",
+        "TypeScript",
+        "AWS Amplify",
+        "React Navigation",
+        "AWS Cognito",
+        "AWS S3",
+        "AWS CloudFront"
+      ],
       "link": null
     },
     {
-      "name": "Moto Lambda API",
+      "name": "Moto-API",
       "status": "active",
-      "category": "Mobile Apps",
+      "category": "API",
       "description": "Serverless backend API for the Moto app with PostgreSQL",
       "tech": ["TypeScript", "Serverless Framework", "AWS Lambda", "PostgreSQL"],
       "link": null
