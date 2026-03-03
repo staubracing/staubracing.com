@@ -3,23 +3,39 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { CATEGORY_INFO } from '../content/config';
 
-const posts = await getCollection('blog', (post) =>
-  post.data.category === 'life' && !post.data.draft
-);
+// Fetch ALL blog posts (not just 'life')
+const posts = await getCollection('blog', (post) => !post.data.draft);
 const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Get unique categories from actual posts
+const categories = [...new Set(sortedPosts.map(post => post.data.category))];
 ---
 
 <Layout title="Journal - StaubRacing">
-  <section class="section-card" style={`--category-color: ${CATEGORY_INFO.life.color}`}>
+  <section class="section-card journal-section">
     <header class="section-header">
       <h1>Journal</h1>
-      <p>Personal stories, thoughts, and what I've been up to</p>
+      <p>All posts across racing, code, projects, and life</p>
     </header>
+
+    <!-- Category filter pills -->
+    <div class="category-filters">
+      <button class="filter-pill active" data-category="all">All</button>
+      {categories.map(cat => (
+        <button
+          class="filter-pill"
+          data-category={cat}
+          style={`--cat-color: ${CATEGORY_INFO[cat]?.color || '#888'}`}
+        >
+          {CATEGORY_INFO[cat]?.emoji} {CATEGORY_INFO[cat]?.title || cat}
+        </button>
+      ))}
+    </div>
 
     {sortedPosts.length > 0 ? (
       <div class="posts-grid">
         {sortedPosts.map(post => (
-          <article class="post-card">
+          <article class="post-card" data-category={post.data.category}>
             <header>
               <h2><a href={`/blog/${post.slug}`}>{post.data.title}</a></h2>
               <time>{post.data.date.toLocaleDateString()}</time>
@@ -34,13 +50,89 @@ const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.get
         ))}
       </div>
     ) : (
-      <p class="empty-state">No life posts yet. Personal stories, adventures, and random thoughts coming soon.</p>
+      <p class="empty-state">No posts yet. Check back soon!</p>
     )}
   </section>
+
+  <script>
+    // Client-side category filtering
+    const pills = document.querySelectorAll('.filter-pill');
+    const posts = document.querySelectorAll('.post-card');
+
+    function filterByCategory(category: string) {
+      // Update active state
+      pills.forEach(p => p.classList.remove('active'));
+      const targetPill = document.querySelector(`.filter-pill[data-category="${category}"]`);
+      if (targetPill) targetPill.classList.add('active');
+
+      // Filter posts
+      posts.forEach(post => {
+        if (category === 'all' || post.dataset.category === category) {
+          post.style.display = '';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    }
+
+    // Handle pill clicks
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterByCategory(pill.dataset.category || 'all');
+      });
+    });
+
+    // Check URL param on load (e.g., /journal?cat=code)
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat');
+    if (catParam) {
+      filterByCategory(catParam);
+    }
+  </script>
 </Layout>
 
 <style>
-  /* Page-specific styles - shared .section-card, .section-header, .post-card, .posts-grid, .empty-state in global.css */
+  .journal-section {
+    --category-color: var(--accent-lime);
+  }
+
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: var(--surface-elevated);
+    border: 1px solid var(--surface-border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--cat-color, var(--accent-lime));
+    color: var(--text-primary);
+  }
+
+  .filter-pill.active {
+    background: color-mix(in srgb, var(--cat-color, var(--accent-lime)) 15%, transparent);
+    border-color: var(--cat-color, var(--accent-lime));
+    color: var(--cat-color, var(--accent-lime));
+  }
+
+  .filter-pill[data-category="all"].active {
+    --cat-color: var(--accent-lime);
+  }
 
   @media (max-width: 768px) {
     .post-card {
@@ -50,6 +142,15 @@ const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.get
     .post-card header {
       flex-direction: column;
       align-items: flex-start;
+    }
+
+    .category-filters {
+      gap: 0.4rem;
+    }
+
+    .filter-pill {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
     }
   }
 </style>
