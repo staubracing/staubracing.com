@@ -10,7 +10,7 @@ const sortedProjects = [...codeProjectsData.projects].sort(
 );
 
 // Group projects by category for section display
-const categories = ['Mobile Apps', 'Websites', 'Client Work', 'AI/ML'] as const;
+const categories = ['Mobile Apps', 'Websites', 'Backend', 'Client Work', 'AI/ML'] as const;
 const projectsByCategory = Object.fromEntries(
   categories.map(cat => [cat, sortedProjects.filter(p => p.category === cat)])
 );
