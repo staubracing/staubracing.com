@@ -9,7 +9,7 @@ featured: false
 draft: false
 ---
 
-Every racer has a list in their head. Sometimes it makes it to a sticky note, a notes app, a scrap of paper on the workbench. But mostly it just lives up there, a running tab of what the bike needs, what got skipped, what you swore you'd handle before the cold and snow hits. Life has a way of putting itself between you and that list.
+Every racer has a list in their head. Sometimes it makes it to a sticky note, a notes app, a scrap of paper on the workbench or like me a whiteboard above the toolbox. But mostly it just lives up there, a running tab of what the bike needs, what got skipped, what you swore you'd handle before the cold and snow hits. Life has a way of putting itself between you and that list.
 
 Later came. -20 degrees came with it.
 
@@ -17,7 +17,7 @@ I usually run Engine Ice, a propylene glycol racing coolant with a lower freeze 
 
 You tell yourself you'll get to it. You don't get to it.
 
-Family left in the early morning to go to work, return to college, all the normal family life routines. Vehicles outside struggled to start, engines and batteries complaining, and I guess so did the garage door. Because in the cold, nothing works correctly. Seems like the door closed and probably hit some ice, or just plain old wanted to be a jerk and opened right back up. No one noticed until it was too late.
+Family left in the early morning to go to work, return to college, and all the normal family life routines. Vehicles outside struggled to start, engines and batteries complaining, and I guess so did the garage door. Because in the cold, nothing works correctly. Seems like the door closed and probably hit some ice, or just plain old wanted to be a jerk and opened right back up. No one noticed until it was too late.
 
 When I returned home from work, I immediately noticed how cold it was in the garage. "Ah Shit!!" My gut tightened and I already had a bad feeling. I went to the bikes and tried to squeeze a coolant line on the Supermoto, hard as a rock.
 
