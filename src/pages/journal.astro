@@ -27,7 +27,7 @@ const categories = [...new Set(sortedPosts.map(post => post.data.category))];
           data-category={cat}
           style={`--cat-color: ${CATEGORY_INFO[cat]?.color || '#888'}`}
         >
-          {CATEGORY_INFO[cat]?.emoji} {CATEGORY_INFO[cat]?.title || cat}
+          {CATEGORY_INFO[cat]?.emoji} {cat === 'life' ? 'Life' : (CATEGORY_INFO[cat]?.title || cat)}
         </button>
       ))}
     </div>
