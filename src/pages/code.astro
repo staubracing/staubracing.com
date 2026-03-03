@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { CATEGORY_INFO } from '../content/config';
-import SubNav from '../components/SubNav.astro';
 import codeProjectsData from '../data/code-projects.json';
 
 // Sort projects: active first, then planned, then done
@@ -18,8 +17,6 @@ const projectsByCategory = Object.fromEntries(
 ---
 
 <Layout title="Code Projects - StaubRacing">
-  <SubNav slot="subnav" section="code" currentPath="/code" />
-
   <section class="section-card" style={`--category-color: ${CATEGORY_INFO.code.color}`}>
     <header class="section-header">
       <h1>Projects</h1>
