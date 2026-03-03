@@ -50,6 +50,11 @@
           "title": "Claude Code for React & React Native Workflows",
           "url": "https://medium.com/cars24/claude-code-for-react-react-native-workflows-that-actually-move-the-needle-33b8bb410b14",
           "description": "Principal engineer's guide to Claude Code commands, skills, and subagents for frontend development"
+        },
+        {
+          "title": "Anthropic Courses",
+          "url": "https://anthropic.skilljar.com/",
+          "description": "Official Anthropic training: Claude Code, API, MCP, and AI Fluency courses"
         }
       ]
     }
