@@ -7,8 +7,17 @@ import { CATEGORY_INFO } from '../content/config';
 const posts = await getCollection('blog', (post) => !post.data.draft);
 const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
+// Custom labels for filter pills (Bourdain-style: short, punchy)
+const pillLabels: Record<string, string> = {
+  racing: 'Racing',
+  code: 'Code',
+  projects: 'Builds',
+  life: 'Life',
+};
+
 // Get unique categories from actual posts
 const categories = [...new Set(sortedPosts.map(post => post.data.category))];
+
 ---
 
 <Layout title="Journal - StaubRacing">
@@ -27,7 +36,7 @@ const categories = [...new Set(sortedPosts.map(post => post.data.category))];
           data-category={cat}
           style={`--cat-color: ${CATEGORY_INFO[cat]?.color || '#888'}`}
         >
-          {CATEGORY_INFO[cat]?.emoji} {cat === 'life' ? 'Life' : (CATEGORY_INFO[cat]?.title || cat)}
+          {pillLabels[cat] || cat}
         </button>
       ))}
     </div>
