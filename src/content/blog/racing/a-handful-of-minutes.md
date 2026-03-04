@@ -7,6 +7,7 @@ author: "StaubRacing"
 category: "racing"
 featured: false
 draft: false
+ogImage: "/images/blog/racing/a-handful-of-minutes/20260201_120513.jpg"
 ---
 
 Every racer has a list in their head. Sometimes it makes it to a sticky note, a notes app, a scrap of paper on the workbench or like me a whiteboard above the toolbox. But mostly it just lives up there, a running tab of what the bike needs, what got skipped, what you swore you'd handle before the cold and snow hits. Life has a way of putting itself between you and that list.
