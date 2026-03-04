@@ -272,133 +272,124 @@ const links: SocialLink[] = [
 
   /* ============================================
      CARD VARIANT - Contact Page
+     Pit wall telemetry style: compact data strips
      ============================================ */
 
   .contact-grid {
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .contact-card {
     position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 1rem;
+    display: flex;
     align-items: center;
-    padding: 1.25rem 1.5rem;
-    border-radius: var(--radius-md);
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--surface-border);
     background: var(--surface-soft);
     color: var(--text-primary);
     text-decoration: none;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease-out;
     overflow: hidden;
   }
 
-  /* Glow layer */
+  /* Status LED indicator */
   .card-glow {
     position: absolute;
-    inset: -8px;
-    background: radial-gradient(
-      ellipse at center,
-      var(--card-glow-color, var(--accent-racing)) 0%,
-      transparent 70%
-    );
-    opacity: 0;
-    filter: blur(12px);
-    transition: opacity 0.35s ease;
-    z-index: 0;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--card-glow-color, var(--accent-racing));
+    border-radius: 0 2px 2px 0;
+    opacity: 0.6;
+    transition: opacity 0.15s ease, height 0.15s ease;
   }
 
-  /* Icon container */
+  /* Icon - compact */
   .card-icon {
     position: relative;
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.75rem;
-    background: linear-gradient(
-      135deg,
-      var(--surface-solid) 0%,
-      var(--surface-soft) 100%
-    );
-    border: 1px solid var(--surface-border);
+    width: 1.75rem;
+    height: 1.75rem;
     color: var(--card-accent, var(--accent-electric));
-    transition: all 0.25s ease;
+    transition: transform 0.15s ease;
   }
 
   .card-icon :global(svg) {
-    width: 1.35rem;
-    height: 1.35rem;
-    transition: transform 0.25s ease;
+    width: 1rem;
+    height: 1rem;
   }
 
-  /* Info section */
+  /* Info section - inline on compact cards */
   .card-info {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0;
+    min-width: 0;
+    flex: 1;
   }
 
   .card-name {
-    font-size: 1.05rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .card-username {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "SF Mono", "Fira Code", monospace;
+    letter-spacing: 0.01em;
   }
 
   /* Arrow indicator */
   .card-arrow {
     position: relative;
     z-index: 2;
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
-    transition: transform 0.25s ease, color 0.25s ease;
+    opacity: 0.5;
+    transition: transform 0.15s ease, opacity 0.15s ease;
   }
 
   /* Hover states */
   .contact-card:hover,
   .contact-card:focus-visible {
-    transform: translateY(-3px);
     border-color: var(--card-accent, var(--accent-electric));
-    box-shadow:
-      0 8px 24px -8px rgba(0, 0, 0, 0.3),
-      0 0 0 1px var(--card-accent, var(--accent-electric));
+    background: color-mix(in srgb, var(--card-accent, var(--accent-electric)) 8%, var(--surface-soft));
   }
 
   .contact-card:hover .card-glow,
   .contact-card:focus-visible .card-glow {
-    opacity: 0.25;
+    opacity: 1;
+    height: 80%;
   }
 
   .contact-card:hover .card-icon,
   .contact-card:focus-visible .card-icon {
-    background: linear-gradient(
-      135deg,
-      var(--surface-soft) 0%,
-      color-mix(in srgb, var(--card-accent, var(--accent-electric)) 15%, var(--surface-solid)) 100%
-    );
-    border-color: color-mix(in srgb, var(--card-accent, var(--accent-electric)) 40%, transparent);
-  }
-
-  .contact-card:hover .card-icon :global(svg),
-  .contact-card:focus-visible .card-icon :global(svg) {
     transform: scale(1.1);
   }
 
   .contact-card:hover .card-arrow,
   .contact-card:focus-visible .card-arrow {
-    transform: translateX(4px);
+    transform: translateX(2px);
+    opacity: 1;
     color: var(--card-accent, var(--accent-electric));
   }
 
@@ -433,28 +424,35 @@ const links: SocialLink[] = [
 
   /* Active state */
   .contact-card:active {
-    transform: translateY(-1px);
-    transition-duration: 0.1s;
+    transform: scale(0.98);
   }
 
   /* Mobile responsive */
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     .contact-grid {
       grid-template-columns: 1fr;
     }
 
     .contact-card {
-      padding: 1rem 1.25rem;
+      padding: 0.75rem 1rem;
     }
 
     .card-icon {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2rem;
+      height: 2rem;
     }
 
     .card-icon :global(svg) {
-      width: 1.15rem;
-      height: 1.15rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .card-name {
+      font-size: 0.85rem;
+    }
+
+    .card-username {
+      font-size: 0.75rem;
     }
   }
 
@@ -463,14 +461,8 @@ const links: SocialLink[] = [
     .contact-card,
     .card-glow,
     .card-icon,
-    .card-icon :global(svg),
     .card-arrow {
       transition: none;
-    }
-
-    .contact-card:hover,
-    .contact-card:focus-visible {
-      transform: none;
     }
   }
 </style>

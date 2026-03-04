@@ -12,55 +12,73 @@ import SocialIcons from '../components/SocialIcons.astro';
 
     <SocialIcons variant="cards" />
 
-    <div class="contact-note">
-      <p>For business inquiries or collaboration, LinkedIn is the best way to reach me.</p>
-      <p>For racing content and quick updates, follow along on X.</p>
+    <div class="contact-preferences">
+      <div class="preference-item primary">
+        <span class="preference-icon" aria-hidden="true">✉</span>
+        <span class="preference-label">Business & collaboration</span>
+        <span class="preference-value">LinkedIn</span>
+      </div>
+      <div class="preference-item">
+        <span class="preference-icon" aria-hidden="true">🏁</span>
+        <span class="preference-label">Racing updates</span>
+        <span class="preference-value">X (Twitter)</span>
+      </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .section-card {
+  /* Contact preferences - quick-reference guide */
+  .contact-preferences {
     display: grid;
-    gap: 1.75rem;
-    padding: clamp(1.75rem, 2.5vw, 2.75rem);
-    background: var(--surface-solid);
-    border-radius: var(--radius-lg);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--surface-border);
+    margin-top: 0.5rem;
+  }
+
+  .preference-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--surface-soft);
     border: 1px solid var(--surface-border);
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(16px);
+    transition: border-color 0.2s ease;
   }
 
-  .section-header {
-    display: grid;
-    gap: 0.8rem;
-    text-align: center;
+  .preference-item.primary {
+    border-color: color-mix(in srgb, var(--color-linkedin) 40%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-linkedin) 8%, var(--surface-soft));
   }
 
-  .section-header h1 {
-    font-size: clamp(2.3rem, 5vw, 3.1rem);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .preference-icon {
+    font-size: 1.1rem;
+    line-height: 1;
   }
 
-  .section-header p {
-    margin: 0;
+  .preference-label {
+    font-size: 0.8rem;
     color: var(--text-secondary);
+    letter-spacing: 0.02em;
   }
 
-  .contact-note {
-    display: grid;
-    gap: 0.5rem;
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    background: var(--overlay-base-light);
-    border: 1px solid var(--surface-border);
-    text-align: center;
+  .preference-value {
+    margin-left: auto;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
-  .contact-note p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+  .preference-item.primary .preference-value {
+    color: var(--color-linkedin);
+  }
+
+  @media (max-width: 480px) {
+    .contact-preferences {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
