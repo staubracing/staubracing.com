@@ -7,78 +7,32 @@ import SocialIcons from '../components/SocialIcons.astro';
   <section class="section-card">
     <header class="section-header">
       <h1>Contact</h1>
-      <p>Want to talk bikes, code, or just say hi? Here's how to reach me.</p>
+      <p>Want to talk bikes, code, or just say hi? Find me here.</p>
     </header>
 
-    <SocialIcons variant="cards" />
+    <SocialIcons variant="contact" />
 
-    <div class="contact-preferences">
-      <div class="preference-item primary">
-        <span class="preference-icon" aria-hidden="true">✉</span>
-        <span class="preference-label">Business & collaboration</span>
-        <span class="preference-value">LinkedIn</span>
-      </div>
-      <div class="preference-item">
-        <span class="preference-icon" aria-hidden="true">🏁</span>
-        <span class="preference-label">Racing updates</span>
-        <span class="preference-value">X (Twitter)</span>
-      </div>
-    </div>
+    <p class="contact-note">
+      <strong>Business inquiries:</strong> LinkedIn is best.<br />
+      <strong>Racing updates:</strong> Follow along on X.
+    </p>
   </section>
 </Layout>
 
 <style>
-  /* Contact preferences - quick-reference guide */
-  .contact-preferences {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    padding-top: 0.5rem;
+  .contact-note {
+    margin: 0;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
     border-top: 1px dashed var(--surface-border);
-    margin-top: 0.5rem;
-  }
-
-  .preference-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: var(--radius-sm);
-    background: var(--surface-soft);
-    border: 1px solid var(--surface-border);
-    transition: border-color 0.2s ease;
-  }
-
-  .preference-item.primary {
-    border-color: color-mix(in srgb, var(--color-linkedin) 40%, var(--surface-border));
-    background: color-mix(in srgb, var(--color-linkedin) 8%, var(--surface-soft));
-  }
-
-  .preference-icon {
-    font-size: 1.1rem;
-    line-height: 1;
-  }
-
-  .preference-label {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.02em;
-  }
-
-  .preference-value {
-    margin-left: auto;
+    text-align: center;
     font-size: 0.85rem;
-    font-weight: 600;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .contact-note strong {
     color: var(--text-primary);
-  }
-
-  .preference-item.primary .preference-value {
-    color: var(--color-linkedin);
-  }
-
-  @media (max-width: 480px) {
-    .contact-preferences {
-      grid-template-columns: 1fr;
-    }
+    font-weight: 600;
   }
 </style>
