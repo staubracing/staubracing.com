@@ -5,7 +5,7 @@ description: "A cracked cylinder head, a garage door with bad timing, and the wi
 tags: ["racing", "maintenance", "KX450", "ZX6R", "season prep", "winter storage"]
 author: "StaubRacing"
 category: "racing"
-featured: false
+featured: true
 draft: false
 ogImage: "/images/blog/racing/a-handful-of-minutes/20260201_120513.jpg"
 ---
