@@ -7,7 +7,19 @@ const posts = await getCollection('blog', (post) => !post.data.draft);
 const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 // Organize posts by category with TypeScript safety
-const featuredPosts = sortedPosts.filter(post => post.data.featured);
+const manuallyFeatured = sortedPosts.filter(post => post.data.featured);
+const nonFeatured = sortedPosts.filter(post => !post.data.featured);
+
+// Smart featured: prioritize manual picks, fill remaining slots with newest posts
+const FEATURED_SLOTS = 3;
+const featuredPosts = [
+  ...manuallyFeatured,
+  ...nonFeatured.slice(0, Math.max(0, FEATURED_SLOTS - manuallyFeatured.length))
+].slice(0, FEATURED_SLOTS);
+
+// Mark posts that are auto-featured (for "NEW" badge display)
+const recentPostSlugs = new Set(sortedPosts.slice(0, 5).map(p => p.slug));
+
 const recentPosts = sortedPosts.slice(0, 6);
 
 // Type-safe category filtering
@@ -55,9 +67,14 @@ const postsByCategory: Record<Category, typeof posts> = {
         <p>Dive into the projects and race reports I can't stop talking about.</p>
       </header>
       <div class="feature-grid">
-        {featuredPosts.slice(0, 3).map(post => (
-          <article class="featured-post" style={`--badge-color: ${CATEGORY_INFO[post.data.category].color}`}>
-            <span class="category-pill">{CATEGORY_INFO[post.data.category].emoji} {CATEGORY_INFO[post.data.category].title}</span>
+        {featuredPosts.map((post, index) => {
+          const isNew = !post.data.featured && recentPostSlugs.has(post.slug);
+          return (
+          <article class="featured-post" style={`--badge-color: ${CATEGORY_INFO[post.data.category].color}; --stagger: ${index}`} data-new={isNew || undefined}>
+            <header class="featured-header">
+              <span class="category-pill">{CATEGORY_INFO[post.data.category].emoji} {CATEGORY_INFO[post.data.category].title}</span>
+              {isNew && <span class="fresh-badge">Fresh</span>}
+            </header>
             <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
             {post.data.description && <p>{post.data.description}</p>}
             <footer>
@@ -65,7 +82,7 @@ const postsByCategory: Record<Category, typeof posts> = {
               <span class="read-more">Read more →</span>
             </footer>
           </article>
-        ))}
+        )})}
       </div>
     </section>
   )}
@@ -258,12 +275,53 @@ const postsByCategory: Record<Category, typeof posts> = {
     border: 1px solid var(--surface-border);
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(14px);
+    animation: card-enter 0.5s ease-out calc(var(--stagger, 0) * 0.1s) both;
+  }
+
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .featured-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .fresh-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--accent-lime) 0%, #4ade80 100%);
+    color: #0a0f0a;
+    box-shadow: 0 0 12px rgba(102, 187, 106, 0.4);
+    animation: fresh-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes fresh-pulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(102, 187, 106, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(102, 187, 106, 0.6); }
   }
 
   .featured-post:hover {
     border-color: color-mix(in srgb, var(--badge-color) 35%, var(--surface-border));
     transform: translateY(-2px);
     box-shadow: var(--shadow-hard);
+  }
+
+  .featured-post[data-new="true"] {
+    border-color: color-mix(in srgb, var(--accent-lime) 20%, var(--surface-border));
   }
 
   .featured-post h3 {
