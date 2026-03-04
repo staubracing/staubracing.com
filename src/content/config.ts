@@ -30,6 +30,7 @@ const blog = defineCollection({
     category: z.enum(CATEGORIES).default("life"),
     series: z.string().optional(), // For multi-part posts like "ZX6R Rebuild"
     draft: z.boolean().default(false),
+    ogImage: z.string().optional(), // Optional social sharing image (relative path like /images/blog/...)
   }),
 });
 

@@ -3,8 +3,31 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 import '../styles/theme.css';
 import '../styles/global.css';
 
-const { title } = Astro.props;
+const SITE_URL = 'https://staubracing.com';
+const DEFAULT_OG_IMAGE = '/images/brand/logo.png';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;  // Relative path like /images/blog/...
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = "Motorcycle racing, coding projects, DIY builds, and life updates.",
+  ogImage = DEFAULT_OG_IMAGE,
+  ogType = 'website'
+} = Astro.props;
+
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+// Always use absolute URLs for og:image (required by X/Twitter, Facebook, etc.)
+const absoluteOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : `${SITE_URL}${ogImage}`;
+
+const absoluteUrl = `${SITE_URL}${currentPath}`;
 
 // Helper to check if a path belongs to a section (includes orphan sub-nav pages)
 function isInSection(path: string, section: string): boolean {
@@ -44,14 +67,17 @@ function isInSection(path: string, section: string): boolean {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Open Graph / Social -->
-    <meta name="description" content="Staub Racing - Motorcycle racing, coding projects, DIY builds, and life updates. Follow the journey at staubracing.com." />
+    <meta name="description" content={description} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content="Motorcycle racing, coding projects, DIY builds, and life updates." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://staubracing.com" />
-    <meta property="og:image" content="/images/brand/logo.png" />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={absoluteUrl} />
+    <meta property="og:image" content={absoluteOgImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@StaubRacing106" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

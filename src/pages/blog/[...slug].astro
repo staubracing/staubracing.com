@@ -4,10 +4,13 @@ import Layout from '../../layouts/Layout.astro';
 import MediaDisplay from '../../components/MediaDisplay.astro';
 import type { CollectionEntry } from "astro:content";
 
+// Default OG image for blog posts without a specific image
+const DEFAULT_BLOG_OG_IMAGE = '/images/brand/logo.png';
+
 export async function getStaticPaths() {
   // Get all blog posts, including those in subdirectories
   const posts = await getCollection('blog');
-  
+
   // Return the proper slug structure that includes the category path
   return posts.map(post => ({
     params: { slug: post.slug },
@@ -23,9 +26,18 @@ if (!post) {
 }
 
 const { Content } = await post.render();
+
+// Use post's ogImage if defined, otherwise fall back to default
+const ogImage = post.data.ogImage || DEFAULT_BLOG_OG_IMAGE;
+const description = post.data.description || `A post by Staub Racing about ${post.data.tags.join(', ')}`;
 ---
 
-<Layout title={post.data.title}>
+<Layout
+  title={post.data.title}
+  description={description}
+  ogImage={ogImage}
+  ogType="article"
+>
   <article class="blog-post section-card">
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
