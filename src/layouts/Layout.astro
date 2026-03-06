@@ -70,7 +70,6 @@ function isInSection(path: string, section: string): boolean {
       </a>
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
-        <a href="/about" class={currentPath === '/about' ? 'active' : ''}>About</a>
         <a href="/racing" class={isInSection(currentPath, 'racing') ? 'active' : ''}>Racing</a>
         <a href="/workshop" class={isInSection(currentPath, 'workshop') ? 'active' : ''}>Workshop</a>
         <a href="/code" class={isInSection(currentPath, 'code') ? 'active' : ''}>Code</a>
@@ -212,38 +211,38 @@ function isInSection(path: string, section: string): boolean {
   .site-nav {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
   }
 
   .site-nav a {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1.1rem;
-    border-radius: 999px;
-    border: 1px solid var(--surface-border);
-    background: var(--surface-soft);
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
+    position: relative;
   }
 
   .site-nav a:hover,
   .site-nav a:focus-visible {
-    background: var(--overlay-accent-hover);
-    border-color: color-mix(in srgb, var(--accent-electric) 50%, var(--accent-lime));
     color: var(--text-primary);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px -4px rgba(102, 187, 106, 0.25), 0 4px 12px -4px rgba(56, 189, 248, 0.2);
   }
 
   .site-nav a.active {
-    background: var(--accent-racing);
-    border-color: var(--accent-racing);
-    color: white;
-    box-shadow: 0 4px 16px -4px rgba(26, 135, 84, 0.5);
+    color: var(--accent-lime);
+    font-weight: 600;
+  }
+
+  .site-nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent-lime);
+    border-radius: 1px;
   }
 
   .page-shell {
