@@ -1,34 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { CATEGORY_INFO, type Category } from '../content/config';
-
-const posts = await getCollection('blog', (post) => !post.data.draft);
-const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-// Organize posts by category with TypeScript safety
-const manuallyFeatured = sortedPosts.filter(post => post.data.featured);
-const nonFeatured = sortedPosts.filter(post => !post.data.featured);
-
-// Smart featured: prioritize manual picks, fill remaining slots with newest posts
-const FEATURED_SLOTS = 3;
-const featuredPosts = [
-  ...manuallyFeatured,
-  ...nonFeatured.slice(0, Math.max(0, FEATURED_SLOTS - manuallyFeatured.length))
-].slice(0, FEATURED_SLOTS);
-
-// Mark posts that are auto-featured (for "NEW" badge display)
-const recentPostSlugs = new Set(sortedPosts.slice(0, 5).map(p => p.slug));
-
-const recentPosts = sortedPosts.slice(0, 6);
-
-// Type-safe category filtering
-const postsByCategory: Record<Category, typeof posts> = {
-  racing: sortedPosts.filter(post => post.data.category === 'racing'),
-  code: sortedPosts.filter(post => post.data.category === 'code'),
-  projects: sortedPosts.filter(post => post.data.category === 'projects'),
-  life: sortedPosts.filter(post => post.data.category === 'life'),
-};
 ---
 
 <Layout title="StaubRacing - Racing, Code & Everything Between">
@@ -60,89 +31,19 @@ const postsByCategory: Record<Category, typeof posts> = {
     </div>
   </section>
 
-  {featuredPosts.length > 0 && (
-    <section class="section-card feature-card">
-      <header class="section-heading">
-        <h2>Featured stories</h2>
-        <p>Dive into the projects and race reports I can't stop talking about.</p>
-      </header>
-      <div class="feature-grid">
-        {featuredPosts.map((post, index) => {
-          const isNew = !post.data.featured && recentPostSlugs.has(post.slug);
-          return (
-          <article class="featured-post" style={`--badge-color: ${CATEGORY_INFO[post.data.category].color}; --stagger: ${index}`} data-new={isNew || undefined}>
-            <header class="featured-header">
-              <span class="category-pill">{CATEGORY_INFO[post.data.category].emoji} {CATEGORY_INFO[post.data.category].title}</span>
-              {isNew && <span class="fresh-badge">Fresh</span>}
-            </header>
-            <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
-            {post.data.description && <p>{post.data.description}</p>}
-            <footer>
-              <time>{post.data.date.toLocaleDateString()}</time>
-              <span class="read-more">Read more →</span>
-            </footer>
-          </article>
-        )})}
-      </div>
-    </section>
-  )}
-
-  <section class="section-card categories-card" id="categories">
-    <header class="section-heading">
-      <h2>What I'm tracking</h2>
-      <p>Choose your rabbit hole: wrenching, coding, or the life that happens between races.</p>
-    </header>
-    <div class="categories-grid">
-      {Object.entries(CATEGORY_INFO).map(([key, info]) => (
-        postsByCategory[key as Category].length > 0 && (
-          <article class="category-card" style={`--category-color: ${info.color}`}>
-            <header>
-              <span class="category-icon">{info.emoji}</span>
-              <div>
-                <h3>{info.title}</h3>
-                <p>{info.description}</p>
-              </div>
-              <span class="post-count">{postsByCategory[key].length} posts</span>
-            </header>
-            <div class="category-links">
-              {postsByCategory[key as Category].slice(0, 3).map(post => (
-                <a href={`/blog/${post.slug}`}>
-                  <span>{post.data.title}</span>
-                  <time>{post.data.date.toLocaleDateString()}</time>
-                </a>
-              ))}
-            </div>
-            <a class="view-all" href={`/${key}`}>
-              View {info.title.toLowerCase()} →
-            </a>
-          </article>
-        )
-      ))}
-    </div>
-  </section>
-
-  <section class="section-card recent-card" id="recent">
-    <header class="section-heading">
-      <h2>Recent pit notes</h2>
-      <p>Fresh updates from the garage, the IDE, and wherever the next problem showed up.</p>
-    </header>
-    <div class="recent-list">
-      {recentPosts.map(post => (
-        <article class="recent-post" style={`--category-color: ${CATEGORY_INFO[post.data.category].color}`}>
-          <header>
-            <span class="category-chip">{CATEGORY_INFO[post.data.category].emoji} {CATEGORY_INFO[post.data.category].title}</span>
-            <time>{post.data.date.toLocaleDateString()}</time>
-          </header>
-          <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
-          {post.data.description && <p>{post.data.description}</p>}
-          {post.data.tags.length > 0 && (
-            <ul class="tag-list">
-              {post.data.tags.map(tag => <li>{tag}</li>)}
-            </ul>
-          )}
-        </article>
-      ))}
-    </div>
+  <section class="section-card about-section">
+    <h2>About</h2>
+    <p class="lead">Hey, I'm Chris.</p>
+    <p>
+      I spent my early twenties on the ramp at MSP, keeping tired 727s flying through Minnesota winters on midnight shifts. That's where I learned that everything is fixable if you're stubborn enough and willing to work in the cold.
+    </p>
+    <p>
+      Now I'm a manufacturing engineer in the medical device world — FDA regulations, validation protocols, and the kind of precision that doesn't leave room for "close enough." By night, I write code. React Native apps, AWS infrastructure, homelab experiments, websites (you're looking at one), and whatever else I can't stop tinkering with.
+    </p>
+    <p>
+      On weekends, I race motorcycles. Central Road Racing here in Minnesota, number 106, Ultralight and Middleweight classes, five years in. A 2014 KX450F for supermoto and a 2009 ZX6R that I've rebuilt more times than I'll admit.
+    </p>
+    <p>Same approach to all of it: take it apart, figure out how it works, make it better.</p>
   </section>
 </Layout>
 
@@ -154,11 +55,11 @@ const postsByCategory: Record<Category, typeof posts> = {
     align-items: center;
     padding: clamp(2.5rem, 8vw, 4rem) clamp(1.5rem, 5vw, 3.5rem);
     margin-top: 2rem;
-    background: linear-gradient(140deg, color-mix(in srgb, var(--accent-racing) 15%, transparent), color-mix(in srgb, var(--accent-electric) 12%, transparent));
+    background: transparent;
     border-radius: var(--radius-lg);
-    border: 1px solid color-mix(in srgb, var(--accent-electric) 25%, var(--surface-border));
-    box-shadow: var(--shadow-hard);
-    backdrop-filter: blur(18px);
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
     position: relative;
     overflow: hidden;
   }
@@ -244,224 +145,35 @@ const postsByCategory: Record<Category, typeof posts> = {
     margin: 0;
   }
 
-  .section-heading {
-    display: grid;
-    gap: 0.6rem;
-    margin-bottom: 1.5rem;
+  .about-section {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 
-  .section-heading h2 {
+  .about-section h2 {
     font-size: clamp(1.75rem, 3vw, 2.25rem);
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    margin-bottom: 1rem;
   }
 
-  .section-heading p {
-    max-width: 620px;
-  }
-
-  .feature-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
-
-  .featured-post {
-    display: grid;
-    gap: 0.85rem;
-    padding: 1.75rem;
-    border-radius: var(--radius-md);
-    background: var(--surface-solid);
-    border: 1px solid var(--surface-border);
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(14px);
-    animation: card-enter 0.5s ease-out calc(var(--stagger, 0) * 0.1s) both;
-  }
-
-  @keyframes card-enter {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .featured-header {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-  }
-
-  .fresh-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border-radius: 6px;
-    background: linear-gradient(135deg, var(--accent-lime) 0%, #4ade80 100%);
-    color: #0a0f0a;
-    box-shadow: 0 0 12px rgba(102, 187, 106, 0.4);
-    animation: fresh-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes fresh-pulse {
-    0%, 100% { box-shadow: 0 0 12px rgba(102, 187, 106, 0.4); }
-    50% { box-shadow: 0 0 20px rgba(102, 187, 106, 0.6); }
-  }
-
-  .featured-post:hover {
-    border-color: color-mix(in srgb, var(--badge-color) 35%, var(--surface-border));
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hard);
-  }
-
-  .featured-post[data-new="true"] {
-    border-color: color-mix(in srgb, var(--accent-lime) 20%, var(--surface-border));
-  }
-
-  .featured-post h3 {
-    font-size: 1.35rem;
-    line-height: 1.3;
-  }
-
-  .featured-post p {
-    margin: 0;
-  }
-
-  .featured-post footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-  }
-
-  .featured-post .read-more {
-    color: var(--accent-electric);
-    font-weight: 600;
-    letter-spacing: 0.05em;
-  }
-
-  .categories-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
-
-  .category-card {
-    display: grid;
-    gap: 1.25rem;
-    padding: 1.75rem;
-    border-radius: var(--radius-md);
-    background: linear-gradient(155deg, color-mix(in srgb, var(--category-color) 10%, transparent), var(--surface-solid));
-    border: 1px solid color-mix(in srgb, var(--category-color) 25%, var(--surface-border));
-    box-shadow: var(--shadow-soft);
-  }
-
-  .category-card header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 0.9rem;
-    align-items: center;
-  }
-
-  .category-icon {
-    font-size: 1.5rem;
-  }
-
-  .category-card p {
-    margin: 0;
-  }
-
-  .post-count {
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--category-color) 60%, #dbeafe);
-  }
-
-  .category-links {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .category-links a {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.75rem;
-    padding: 0.8rem 1rem;
-    border-radius: 14px;
-    border: 1px solid var(--surface-border);
-    background: var(--overlay-base-light);
+  .about-section .lead {
+    font-size: 1.25rem;
     color: var(--text-primary);
-    font-size: 0.95rem;
-    transition: transform 0.2s ease, border 0.2s ease, background 0.2s ease;
+    margin-bottom: 1.5rem;
   }
 
-  .category-links a:hover,
-  .category-links a:focus-visible {
-    transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--category-color) 40%, var(--surface-border));
-    background: var(--overlay-base-medium);
-  }
-
-  .category-links time {
-    font-size: 0.75rem;
+  .about-section p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin: 0 0 1.25rem;
     color: var(--text-secondary);
   }
 
-  .view-all {
-    justify-self: flex-start;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--category-color) 65%, var(--accent-electric));
-  }
-
-  .recent-list {
-    display: grid;
-    gap: 1.25rem;
-  }
-
-  .recent-post {
-    display: grid;
-    gap: 0.75rem;
-    padding: 1.5rem 1.75rem;
-    border-radius: var(--radius-md);
-    background: var(--surface-solid);
-    border: 1px solid var(--surface-border);
-    transition: border 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .recent-post:hover,
-  .recent-post:focus-within {
-    border-color: color-mix(in srgb, var(--category-color) 40%, var(--surface-border));
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-soft);
-  }
-
-  .recent-post header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-  }
-
-  .recent-post h3 {
-    margin: 0;
-    font-size: 1.2rem;
-  }
-
-  .recent-post p {
-    margin: 0;
+  .about-section p:last-child {
+    margin-bottom: 0;
   }
 
   @media (max-width: 768px) {
@@ -491,29 +203,6 @@ const postsByCategory: Record<Category, typeof posts> = {
 
     .hero-badge {
       justify-content: center;
-    }
-
-    .feature-grid,
-    .categories-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .category-card header {
-      grid-template-columns: auto 1fr;
-    }
-
-    .post-count {
-      justify-self: flex-start;
-      margin-top: 0.35rem;
-    }
-
-    .category-links a {
-      grid-template-columns: 1fr;
-      gap: 0.35rem;
-    }
-
-    .recent-post {
-      padding: 1.25rem 1.4rem;
     }
   }
 </style>

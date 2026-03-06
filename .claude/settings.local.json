@@ -18,7 +18,8 @@
       "Bash(yarn add:*)",
       "Bash(ulimit:*)",
       "Bash(lsof)",
-      "Bash(identify:*)"
+      "Bash(identify:*)",
+      "Bash(git:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
