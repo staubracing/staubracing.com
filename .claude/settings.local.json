@@ -20,7 +20,8 @@
       "Bash(lsof)",
       "Bash(identify:*)",
       "Bash(git:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(sudo mkdir:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
