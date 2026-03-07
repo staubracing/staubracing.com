@@ -19,7 +19,8 @@
       "Bash(ulimit:*)",
       "Bash(lsof)",
       "Bash(identify:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(grep:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

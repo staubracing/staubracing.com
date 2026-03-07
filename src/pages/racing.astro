@@ -51,7 +51,12 @@ type BikeStatus = 'ready' | 'maintenance';
 </Layout>
 
 <style>
-  /* Page-specific styles - shared .section-card and .section-header in global.css */
+  .section-card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
 
   .stats-row {
     display: grid;

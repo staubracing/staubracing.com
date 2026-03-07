@@ -40,7 +40,12 @@ const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.get
 </Layout>
 
 <style>
-  /* Page-specific styles - shared .section-card, .section-header, .post-card, .posts-grid, .empty-state in global.css */
+  .section-card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
 
   @media (max-width: 768px) {
     .post-card {

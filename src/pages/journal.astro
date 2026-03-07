@@ -101,6 +101,13 @@ const categories = [...new Set(sortedPosts.map(post => post.data.category))];
 </Layout>
 
 <style>
+  .section-card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
   .journal-section {
     --category-color: var(--accent-lime);
   }
