@@ -157,6 +157,20 @@ git push main → GitHub Actions → astro build → S3 sync → CloudFront inva
 
 No manual deploy needed — push to `main` triggers automatic deployment.
 
+### S3 Bucket Sharing with Updog Coffee
+
+> ⚠️ **TEMPORARY**: This will be removed when Updog Coffee gets its own S3 bucket.
+
+The S3 bucket `s3://staubracing.com` is shared with the Updog Coffee site at `/updog/`. The deploy workflow uses `--exclude "updog/*"` to prevent deleting the Updog files during deployment.
+
+**Files affected:**
+- `.github/workflows/deploy.yml` — S3 sync command has exclude flag
+
+**When to remove:**
+Once Updog Coffee has its own S3 bucket and CloudFront distribution, remove the `--exclude "updog/*"` flag from the deploy workflow.
+
+**Related:** `~/Projects/Clients/UpdogCoffee/html-site/`
+
 ## External Integrations
 
 ### Google Calendar (Planned)
