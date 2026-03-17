@@ -49,9 +49,10 @@ jobs:
           GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
 
       - name: Sync to S3
-        # NOTE: --exclude "updog/*" prevents deleting the separate Updog Coffee site
-        # TODO: Remove this exclude when Updog gets its own S3 bucket (see docs)
-        run: aws s3 sync ./dist s3://staubracing.com --delete --exclude "updog/*"
+        # NOTE: --exclude patterns prevent deleting the separate Updog Coffee site
+        # Both "updog/" and "updog/*" are needed for full protection with --delete
+        # TODO: Remove these excludes when Updog gets its own S3 bucket
+        run: aws s3 sync ./dist s3://staubracing.com --delete --exclude "updog/" --exclude "updog/*"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
