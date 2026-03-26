@@ -21,7 +21,9 @@
       "Bash(identify:*)",
       "Bash(git:*)",
       "Bash(grep:*)",
-      "Bash(sudo mkdir:*)"
+      "Bash(sudo mkdir:*)",
+      "Bash(yarn info:*)",
+      "Bash(npm view:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
