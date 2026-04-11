@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Staub Racing is a consolidated personal site built with Astro 5, featuring motorcycle racing content, coding projects, DIY builds, and life updates. The site uses static generation with MDX support and deploys to AWS S3 + CloudFront at `staubracing.com`.
 
-**Status:** Migration complete. Unified Astro codebase deployed to AWS.
+**Status:** Unified Astro codebase deployed to AWS (migration from two-site setup complete).
 
 ## Quick Start
 
@@ -93,18 +93,18 @@ staubracing.com/
 │   ├── services/
 │   │   └── auth.ts        # AWS Cognito authentication helpers
 │   ├── layouts/
-│   │   └── Layout.astro   # Shared page shell (includes nav + footer inline)
+│   │   ├── Layout.astro   # Shared page shell (includes nav + footer inline)
+│   │   └── GuideLayout.astro  # Layout for guide pages
 │   ├── pages/
 │   │   ├── index.astro       # Home
-│   │   ├── about.astro       # About page
 │   │   ├── racing.astro      # Racing section
-│   │   ├── racing/reports.astro # Race reports listing
 │   │   ├── workshop.astro    # Workshop section (DIY builds)
 │   │   ├── code.astro        # Code section
-│   │   ├── code/posts.astro  # Code posts listing
 │   │   ├── journal.astro     # Journal section
 │   │   ├── calendar.astro    # Event calendar
 │   │   ├── maintenance.astro # Public maintenance view
+│   │   ├── guides/index.astro     # Guides listing
+│   │   ├── guides/[slug].astro    # Individual guide pages
 │   │   ├── admin/login.astro       # API key auth
 │   │   ├── admin/maintenance.astro # Quick-capture form
 │   │   ├── contact.astro     # Contact page
@@ -145,7 +145,8 @@ Each section page (racing, workshop, code, journal) aggregates blog posts from i
 ### Routing
 
 - File-based routing in `src/pages/`
-- Static pages: `index.astro`, `racing.astro`, `workshop.astro`, `code.astro`, `journal.astro`, `contact.astro`, `links.astro`, `calendar.astro`, `maintenance.astro`
+- Static pages: `index.astro`, `racing.astro`, `workshop.astro`, `code.astro`, `journal.astro`, `contact.astro`, `links.astro`, `calendar.astro`, `maintenance.astro`, `guides/index.astro`
+- Guide pages: `guides/index.astro` (listing), `guides/[slug].astro` (individual guides)
 - Admin pages: `admin/login.astro`, `admin/maintenance.astro` (API key auth required)
 - Admin auth uses AWS Cognito via `src/services/auth.ts`. Sessions are managed client-side with Amplify.
 - Dynamic: `blog/[...slug].astro` for posts, `category/[category].astro` for category listings
@@ -201,9 +202,9 @@ Section pages use clean, minimal headers with just `h1` and `p` — no redundant
 **Where `.category-pill` is NOT used:**
 
 - Main section pages (`racing.astro`, `workshop.astro`, `code.astro`, `journal.astro`)
-- Sub-section pages (`racing/reports.astro`, `code/posts.astro`)
 - Racing-related pages (`calendar.astro`, `maintenance.astro`)
 - Utility pages (`contact.astro`, `links.astro`)
+- Guide pages (`guides/index.astro`, `guides/[slug].astro`)
 - Admin pages (`admin/login.astro`, `admin/maintenance.astro`)
 
 ### Navigation Active States
@@ -317,18 +318,6 @@ The backend is a standalone Express server (not Lambda) running on a Raspberry P
 - PATCH /maintenance/:id - updates record, verifies ownership
 - DELETE /maintenance/:id - deletes record, verifies ownership
 - GET /bikes/me - returns bikes owned by authenticated user
-
-## Migration Complete
-
-The site was migrated from a two-site setup (static HTML + blog subdomain) to a unified Astro codebase. All phases completed:
-
-- **Phase 1**: Foundation — Layout components, routing structure, design system ✅
-- **Phase 2**: Content migration — Blog posts, bike data, gallery images, links ✅
-- **Phase 3**: Home page & polish — Hero, stats, dark/light toggle, responsiveness ✅
-- **Phase 4**: AWS deployment — S3 sync, CloudFront config, GitHub Actions ✅
-- **Phase 5**: Content cadence — Weekly publishing habit (ongoing)
-
-See `docs/MIGRATION_PLAN.md` for historical reference.
 
 ## Claude Code Extensions
 
