@@ -1,6 +1,13 @@
 {
-  "lastUpdated": "2026-03-26",
+  "lastUpdated": "2026-05-31",
   "items": [
+    {
+      "id": "kawasaki-zx6r-test-ride-the-ninja",
+      "bike": "Kawasaki ZX6R",
+      "task": "Test Ride the Ninja",
+      "priority": "high",
+      "notes": ""
+    },
     {
       "id": "kawasaki-kx450f-testing-endpoint",
       "bike": "Kawasaki KX450F",
