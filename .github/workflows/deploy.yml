@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write  # Allow pushing commits back to repo
 
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true  # Cancel older runs if a new push arrives
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -41,6 +45,7 @@ jobs:
           else
             git add src/data/maintenance.json
             git commit -m "chore: sync maintenance data from database [skip ci]"
+            git pull --rebase origin main
             git push
           fi
 
