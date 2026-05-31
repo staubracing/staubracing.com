@@ -9,13 +9,6 @@
       "notes": ""
     },
     {
-      "id": "kawasaki-kx450f-testing-endpoint",
-      "bike": "Kawasaki KX450F",
-      "task": "testing endpoint",
-      "priority": "high",
-      "notes": "testing the new endpoint stuff"
-    },
-    {
       "id": "kawasaki-kx450f-search-ebay-for-cylinder",
       "bike": "Kawasaki KX450F",
       "task": "Search Ebay for cylinder",
@@ -33,13 +26,6 @@
       "id": "kawasaki-kx450f-finish-swingarm-mod",
       "bike": "Kawasaki KX450F",
       "task": "Finish Swingarm Mod",
-      "priority": "high",
-      "notes": ""
-    },
-    {
-      "id": "kawasaki-zx6r-repair-water-pump",
-      "bike": "Kawasaki ZX6R",
-      "task": "Repair Water Pump",
       "priority": "high",
       "notes": ""
     },
