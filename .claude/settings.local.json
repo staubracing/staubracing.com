@@ -23,7 +23,8 @@
       "Bash(grep:*)",
       "Bash(sudo mkdir:*)",
       "Bash(yarn info:*)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Skill(run)"
     ]
   },
   "enableAllProjectMcpServers": true,
