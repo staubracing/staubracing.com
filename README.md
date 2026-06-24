@@ -24,6 +24,7 @@ yarn astro check
 ## Deployment
 
 Automatic via GitHub Actions on push to `main`:
+
 - Builds with `astro build`
 - Syncs `dist/` to AWS S3
 - Invalidates CloudFront cache
@@ -71,23 +72,23 @@ See [docs/guides/creating-posts.md](docs/guides/creating-posts.md) for details.
 
 ## Tech Stack
 
-| Layer | Tool |
-|-------|------|
-| Framework | Astro 5 |
-| Content | Markdown/MDX |
-| Styling | CSS custom properties |
-| Hosting | AWS S3 |
-| CDN | AWS CloudFront |
-| CI/CD | GitHub Actions |
+| Layer     | Tool                  |
+| --------- | --------------------- |
+| Framework | Astro 5               |
+| Content   | Markdown/MDX          |
+| Styling   | CSS custom properties |
+| Hosting   | AWS S3                |
+| CDN       | AWS CloudFront        |
+| CI/CD     | GitHub Actions        |
 
 ## Documentation
 
-| I want to... | See |
-|--------------|-----|
-| Change colors/theme | [docs/guides/theme-customization.md](docs/guides/theme-customization.md) |
-| Add images to posts | [docs/guides/adding-images.md](docs/guides/adding-images.md) |
-| Create a new post | [docs/guides/creating-posts.md](docs/guides/creating-posts.md) |
-| Understand architecture | [docs/reference/architecture.md](docs/reference/architecture.md) |
+| I want to...            | See                                                                      |
+| ----------------------- | ------------------------------------------------------------------------ |
+| Change colors/theme     | [docs/guides/theme-customization.md](docs/guides/theme-customization.md) |
+| Add images to posts     | [docs/guides/adding-images.md](docs/guides/adding-images.md)             |
+| Create a new post       | [docs/guides/creating-posts.md](docs/guides/creating-posts.md)           |
+| Understand architecture | [docs/reference/architecture.md](docs/reference/architecture.md)         |
 
 Full documentation index: [docs/README.md](docs/README.md)
 
