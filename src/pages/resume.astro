@@ -80,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <ul class="cap-bullets">
-          <li>Designed and operate <strong>Arrakis</strong> — a Pi 5 homelab (16GB RAM, Debian 12) running 24/7. Zero open ports: all external traffic routes through a Cloudflare Tunnel to 6 HTTPS subdomains. Tailscale VPN for private access.</li>
+          <li>Designed and operate <strong>Arrakis</strong> (a Pi 5 on my desk — named after the Dune planet because it's small, harsh, and does way more than it has any right to). Zero open ports: Cloudflare Tunnel handles all 6 public HTTPS subdomains, Tailscale for private SSH and internal access.</li>
           <li>Docker: Nextcloud, Navidrome, n8n, PostgreSQL (7 databases), Minecraft Bedrock server.</li>
           <li>CI/CD: GitHub Actions pipelines for build, S3 sync, and CloudFront invalidation on every push. Daily cron workflow keeps maintenance data fresh automatically.</li>
           <li>AWS: S3, CloudFront, Route 53, ACM, Bedrock, Cognito, CDK — used across multiple projects.</li>
@@ -165,6 +165,11 @@ import Layout from '../layouts/Layout.astro';
             <td class="proj-name">documentation-rag</td>
             <td>RAG, LLM, Python</td>
             <td><span class="status-badge done">Experimental</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">meal-planner</td>
+            <td>Express, PostgreSQL, TypeScript, PM2</td>
+            <td><span class="status-badge planned">WIP</span></td>
           </tr>
           <tr>
             <td class="proj-name">AutomationFramework</td>
