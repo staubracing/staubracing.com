@@ -1,0 +1,477 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Resume - Christopher Staub"
+  description="Christopher Staub — Full-stack developer. Frontend, backend, infrastructure, and AI."
+>
+  <section class="section-card">
+    <header class="section-header">
+      <h1>Christopher Staub</h1>
+      <p>Full-stack developer — from React Native apps to self-hosted APIs and homelab infrastructure.</p>
+    </header>
+
+    <div class="contact-bar">
+      <a href="mailto:staubracing@gmail.com">staubracing@gmail.com</a>
+      <a href="https://staubracing.com">staubracing.com</a>
+      <a href="https://chrisstaub.com">chrisstaub.com</a>
+      <a href="https://github.com/staubracing" target="_blank" rel="noopener noreferrer">github.com/staubracing</a>
+    </div>
+
+    <blockquote class="summary">
+      Full-stack developer who builds across the whole stack — from React Native apps and Astro sites to
+      self-hosted APIs, Docker infrastructure, and AI experiments. I run real projects in production on
+      hardware I own and maintain. Comfortable picking up new tools and comfortable going deep on the ones I know.
+    </blockquote>
+
+    <!-- ── What I Build ── -->
+    <h2 class="resume-heading">What I Build</h2>
+    <div class="capabilities">
+
+      <div class="capability cap-frontend">
+        <div class="cap-top">
+          <h3>Frontend &amp; Web</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">Astro 5</span>
+            <span class="tech-tag">CSS Custom Properties</span>
+            <span class="tech-tag">MDX</span>
+          </div>
+        </div>
+        <ul class="cap-bullets">
+          <li>Built and maintain <strong>staubracing.com</strong> — Astro 5 site with MDX content collections, dark-first CSS theme, and 14 routes. Deployed on AWS S3 + CloudFront via GitHub Actions.</li>
+          <li>Built the <strong>craftvault-client</strong> React frontend for a diamond painting supply tracker.</li>
+          <li>Building <strong>MotoAppPro</strong> — React Native motorcycle tracking app paired with a live REST API.</li>
+        </ul>
+      </div>
+
+      <div class="capability cap-backend">
+        <div class="cap-top">
+          <h3>Backend &amp; APIs</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Express</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">PM2</span>
+            <span class="tech-tag">Serverless</span>
+          </div>
+        </div>
+        <ul class="cap-bullets">
+          <li>Four live REST APIs in production: <strong>moto-api</strong>, <strong>updog-api</strong>, <strong>craftvault-api</strong>, <strong>tracker-api</strong> — each TypeScript/Express with its own PostgreSQL database, managed by PM2.</li>
+          <li>Established the standard Node.js/Express/PM2 app pattern used across all self-hosted projects — consistent structure, shared DB helpers, migration-on-startup.</li>
+          <li>Built a maintenance log system: Astro admin form → Lambda API → PostgreSQL. Data syncs back into the static build during CI so the public page stays current without a runtime API call.</li>
+        </ul>
+      </div>
+
+      <div class="capability cap-infra">
+        <div class="cap-top">
+          <h3>Infrastructure &amp; DevOps</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Cloudflare Tunnels</span>
+            <span class="tech-tag">Tailscale</span>
+            <span class="tech-tag">AWS</span>
+            <span class="tech-tag">GitHub Actions</span>
+            <span class="tech-tag">Raspberry Pi</span>
+          </div>
+        </div>
+        <ul class="cap-bullets">
+          <li>Designed and operate <strong>Arrakis</strong> — a Pi 5 homelab (16GB RAM, Debian 12) running 24/7. Zero open ports: all external traffic routes through a Cloudflare Tunnel to 6 HTTPS subdomains. Tailscale VPN for private access.</li>
+          <li>Docker: Nextcloud, Navidrome, n8n, PostgreSQL (7 databases), Minecraft Bedrock server.</li>
+          <li>CI/CD: GitHub Actions pipelines for build, S3 sync, and CloudFront invalidation on every push. Daily cron workflow keeps maintenance data fresh automatically.</li>
+          <li>AWS: S3, CloudFront, Route 53, ACM, Bedrock, Cognito, CDK — used across multiple projects.</li>
+        </ul>
+      </div>
+
+      <div class="capability cap-ai">
+        <div class="cap-top">
+          <h3>AI / ML</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">RAG</span>
+            <span class="tech-tag">Ollama</span>
+            <span class="tech-tag">OpenAI API</span>
+            <span class="tech-tag">AWS Bedrock</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">n8n</span>
+          </div>
+        </div>
+        <ul class="cap-bullets">
+          <li><strong>documentation-rag</strong> — RAG system for querying personal markdown docs. Runs privately on Pi.</li>
+          <li><strong>ai-budgetApp-localLLM</strong> — Bank statement analyzer using Ollama. Fully on-device, no data leaves the machine.</li>
+          <li><strong>private-ai</strong> — Conversational AI on AWS EC2 + Bedrock. DynamoDB for conversation history. Built with AWS CDK.</li>
+          <li><strong>moneymap</strong> — AI-powered finance categorizer with learning + caching layer. TypeScript, Node.js.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ── Projects ── -->
+    <h2 class="resume-heading">Projects</h2>
+    <div class="projects-table-wrap">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Stack</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="proj-name"><a href="https://staubracing.com" target="_blank" rel="noopener noreferrer">staubracing.com</a></td>
+            <td>Astro 5, AWS S3/CloudFront, GitHub Actions</td>
+            <td><span class="status-badge active">Live</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">MotoAppPro</td>
+            <td>React Native, TypeScript</td>
+            <td><span class="status-badge planned">WIP</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">moto-api</td>
+            <td>Express, PostgreSQL, TypeScript, PM2</td>
+            <td><span class="status-badge active">Live</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">craftvault-api + client</td>
+            <td>Express, PostgreSQL, React, TypeScript</td>
+            <td><span class="status-badge active">Live</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">updog-api</td>
+            <td>Express, TypeScript, PostgreSQL</td>
+            <td><span class="status-badge active">Live</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">personal-tracker</td>
+            <td>Express, PostgreSQL, TypeScript, PM2</td>
+            <td><span class="status-badge active">Live</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">Arrakis homelab</td>
+            <td>Pi 5, Docker, Cloudflare, Tailscale, AWS</td>
+            <td><span class="status-badge active">Live</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">private-ai</td>
+            <td>AWS Bedrock, CDK, DynamoDB, EC2</td>
+            <td><span class="status-badge done">Experimental</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">documentation-rag</td>
+            <td>RAG, LLM, Python</td>
+            <td><span class="status-badge done">Experimental</span></td>
+          </tr>
+          <tr>
+            <td class="proj-name">AutomationFramework</td>
+            <td>TypeScript, YAML, n8n, Slack</td>
+            <td><span class="status-badge planned">WIP</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Client Work ── -->
+    <h2 class="resume-heading">Client Work</h2>
+    <div class="client-list">
+      <div class="client-row">
+        <span class="client-name">Updog Coffee</span>
+        <span class="client-desc">Customer-facing website + backend API. In progress.</span>
+      </div>
+      <div class="client-row">
+        <span class="client-name">Access Point Vascular</span>
+        <span class="client-desc">Former client project.</span>
+      </div>
+    </div>
+
+  </section>
+</Layout>
+
+<style>
+  .section-card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    display: grid;
+    gap: 2rem;
+  }
+
+  /* ── Contact bar ── */
+  .contact-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    font-size: 0.85rem;
+  }
+
+  .contact-bar a {
+    color: var(--accent-electric);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-bar a:hover {
+    color: color-mix(in srgb, var(--accent-electric) 80%, white);
+    text-decoration: underline;
+  }
+
+  /* ── Summary ── */
+  .summary {
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--accent-electric);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--surface-solid);
+    border-top: 1px solid var(--surface-border);
+    border-right: 1px solid var(--surface-border);
+    border-bottom: 1px solid var(--surface-border);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-style: normal;
+  }
+
+  /* ── Section headings ── */
+  .resume-heading {
+    margin: 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--surface-border);
+  }
+
+  /* ── Capabilities ── */
+  .capabilities {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .capability {
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--surface-border);
+    background: var(--surface-solid);
+    display: grid;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+
+  .capability::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .cap-frontend::before { background: var(--accent-electric); }
+  .cap-backend::before  { background: var(--accent-lime); }
+  .cap-infra::before    { background: var(--accent-amber); }
+  .cap-ai::before       { background: var(--accent-racing); }
+
+  .capability:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .cap-frontend:hover { border-color: color-mix(in srgb, var(--accent-electric) 40%, var(--surface-border)); }
+  .cap-backend:hover  { border-color: color-mix(in srgb, var(--accent-lime) 40%, var(--surface-border)); }
+  .cap-infra:hover    { border-color: color-mix(in srgb, var(--accent-amber) 40%, var(--surface-border)); }
+  .cap-ai:hover       { border-color: color-mix(in srgb, var(--accent-racing) 60%, var(--surface-border)); }
+
+  .cap-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cap-top h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .cap-frontend h3 { color: var(--accent-electric); }
+  .cap-backend h3  { color: var(--accent-lime); }
+  .cap-infra h3    { color: var(--accent-amber); }
+  .cap-ai h3       { color: var(--accent-racing); }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tech-tag {
+    font-size: 0.72rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-border) 40%, transparent);
+    border: 1px solid var(--surface-border);
+    color: var(--text-secondary);
+  }
+
+  .cap-bullets {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cap-bullets li {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    padding-left: 1.1rem;
+    position: relative;
+  }
+
+  .cap-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--surface-border);
+  }
+
+  .cap-bullets strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* ── Projects table ── */
+  .projects-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--surface-border);
+    background: var(--surface-solid);
+  }
+
+  .projects-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .projects-table th {
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--surface-border);
+    font-weight: 500;
+    background: transparent;
+  }
+
+  .projects-table td {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--surface-border);
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+
+  .projects-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .projects-table tr:hover td {
+    background: color-mix(in srgb, var(--surface-border) 15%, transparent);
+  }
+
+  .proj-name {
+    font-weight: 600;
+    color: var(--text-primary) !important;
+  }
+
+  .proj-name a {
+    color: var(--accent-electric);
+    text-decoration: none;
+  }
+
+  .proj-name a:hover {
+    text-decoration: underline;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .status-badge.active {
+    background: color-mix(in srgb, var(--accent-lime) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-lime) 50%, transparent);
+    color: var(--accent-lime);
+  }
+
+  .status-badge.planned {
+    background: color-mix(in srgb, var(--accent-amber) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-amber) 50%, transparent);
+    color: var(--accent-amber);
+  }
+
+  .status-badge.done {
+    background: color-mix(in srgb, var(--text-secondary) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--text-secondary) 35%, transparent);
+    color: var(--text-secondary);
+  }
+
+  /* ── Client work ── */
+  .client-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .client-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--surface-border);
+    background: var(--surface-solid);
+  }
+
+  .client-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    min-width: 200px;
+  }
+
+  .client-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .cap-top {
+      flex-direction: column;
+    }
+
+    .projects-table th:nth-child(2),
+    .projects-table td:nth-child(2) {
+      display: none;
+    }
+  }
+</style>
