@@ -30,7 +30,7 @@ Web Form (HTTPS) → AWS API Gateway (HTTPS) → PostgreSQL (Docker on Pi)
 
 ## Database Schema
 
-Located in `moto_db_local` on Pi's PostgreSQL Docker container.
+Located in `moto_db` on Pi's PostgreSQL Docker container (renamed from `moto_db_local` on 2026-07-02).
 
 ```sql
 CREATE TABLE maintenance_records (
