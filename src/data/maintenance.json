@@ -2,27 +2,6 @@
   "lastUpdated": "2026-07-02",
   "items": [
     {
-      "id": "kawasaki-zx6r-test-ride-the-ninja",
-      "bike": "Kawasaki ZX6R",
-      "task": "Test Ride the Ninja",
-      "priority": "high",
-      "notes": ""
-    },
-    {
-      "id": "kawasaki-kx450f-search-ebay-for-cylinder",
-      "bike": "Kawasaki KX450F",
-      "task": "Search Ebay for cylinder",
-      "priority": "medium",
-      "notes": ""
-    },
-    {
-      "id": "general-evaluate-status-of-bikes-",
-      "bike": "General",
-      "task": "Evaluate Status of Bikes ",
-      "priority": "high",
-      "notes": "review what needs to be done, make a bike priority over another bike"
-    },
-    {
       "id": "kawasaki-kx450f-finish-swingarm-mod",
       "bike": "Kawasaki KX450F",
       "task": "Finish Swingarm Mod",
