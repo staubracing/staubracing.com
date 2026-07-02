@@ -59,6 +59,14 @@
       "link": "https://github.com/StaubRacing/staubracing.com"
     },
     {
+      "name": "Meal Planner",
+      "status": "planned",
+      "category": "Backend",
+      "description": "Self-hosted family meal planner — weekly grid, recipe library, grocery list generator, and defrost planner. Planned for meals.staubracing.com",
+      "tech": ["TypeScript", "Express", "PostgreSQL", "PM2"],
+      "link": null
+    },
+    {
       "name": "MoneyMap",
       "status": "active",
       "category": "AI/ML",
