@@ -2,13 +2,6 @@
   "lastUpdated": "2026-07-05",
   "items": [
     {
-      "id": "kawasaki-kx450f-install-cylinder-head",
-      "bike": "Kawasaki KX450F",
-      "task": "Install cylinder head",
-      "priority": "high",
-      "notes": ""
-    },
-    {
       "id": "kawasaki-kx450f-finish-swingarm-mod",
       "bike": "Kawasaki KX450F",
       "task": "Finish Swingarm Mod",
