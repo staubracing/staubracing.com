@@ -24,7 +24,8 @@
       "Bash(sudo mkdir:*)",
       "Bash(yarn info:*)",
       "Bash(npm view:*)",
-      "Skill(run)"
+      "Skill(run)",
+      "Bash(ssh *)"
     ]
   },
   "enableAllProjectMcpServers": true,
