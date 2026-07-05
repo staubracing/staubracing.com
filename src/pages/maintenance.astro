@@ -26,6 +26,7 @@ const typedMaintenanceData = maintenanceData as {
     <header class="section-header">
       <h1>Bike Maintenance</h1>
       <p>Track day and race prep items for the fleet. Priority indicates urgency.</p>
+      <a href="/admin/login" class="admin-link">Admin Sign In</a>
     </header>
 
     <div class="last-updated">
@@ -75,6 +76,20 @@ const typedMaintenanceData = maintenanceData as {
   .section-header p {
     margin: 0;
     color: var(--text-secondary);
+  }
+
+  .admin-link {
+    justify-self: center;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .admin-link:hover {
+    opacity: 1;
+    color: var(--accent-amber);
   }
 
   .last-updated {
