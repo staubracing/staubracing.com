@@ -61,7 +61,7 @@ I ran around the corner, grabbed it, called 911.
 
 I flooded her. Everything I had, all at once. No filter, just data.
 
-"My dad is not breathing. This is Christopher Staub, my dad Harry K. Staub is not breathing. I am at 2132 Maximilian Drive, Spring Hill. He is currently undergoing chemo and radiation, he has COPD, and he is on oxygen."
+I gave her my name and my dad's name, our address, and told her he was currently undergoing chemo and radiation, that he had COPD, and that he was on oxygen.
 
 All of it in one breath. Some part of my brain had been keeping inventory the whole time without me knowing it. Name, address, medical history, current condition. The facts were just there, ready, waiting for someone to receive them.
 
