@@ -3,16 +3,18 @@ import Layout from '../layouts/Layout.astro';
 import { CATEGORY_INFO } from '../content/config';
 import codeProjectsData from '../data/code-projects.json';
 
-// Sort projects: active first, then planned, then done
-const statusOrder = { active: 0, planned: 1, done: 2 };
+// Group projects by status: Live first, then WIP
+const statusOrder = { live: 0, wip: 1 };
 const sortedProjects = [...codeProjectsData.projects].sort(
   (a, b) => statusOrder[a.status] - statusOrder[b.status]
 );
 
-// Group projects by category for section display
-const categories = ['Mobile Apps', 'Websites', 'Backend', 'Client Work', 'AI/ML'] as const;
-const projectsByCategory = Object.fromEntries(
-  categories.map(cat => [cat, sortedProjects.filter(p => p.category === cat)])
+const statusSections = [
+  { key: 'live', heading: 'Live' },
+  { key: 'wip', heading: 'WIP' },
+] as const;
+const projectsByStatus = Object.fromEntries(
+  statusSections.map(({ key }) => [key, sortedProjects.filter(p => p.status === key)])
 );
 ---
 
@@ -24,27 +26,20 @@ const projectsByCategory = Object.fromEntries(
     </header>
 
     <section class="projects-section">
-      {categories.map(category => projectsByCategory[category].length > 0 && (
-        <div class="category-group">
-          <h3 class="category-heading">{category}</h3>
+      {statusSections.map(({ key, heading }) => projectsByStatus[key].length > 0 && (
+        <div class={`category-group status-${key}`}>
+          <h3 class="category-heading">{heading}</h3>
           <div class="projects-grid">
-            {projectsByCategory[category].map((project: any) => (
-              <article class={`project-card status-${project.status}`}>
+            {projectsByStatus[key].map((project: any) => (
+              <article class={`project-card status-${key}`}>
                 <header class="project-header">
                   <h4>{project.name}</h4>
-                  <span class={`status-badge ${project.status}`}>
-                    {project.status === 'active' && '🔄'}
-                    {project.status === 'planned' && '📋'}
-                    {project.status === 'done' && '✓'}
-                    {project.status}
-                  </span>
                 </header>
                 <p class="project-description">{project.description}</p>
-                {project.tech && project.tech.length > 0 && (
-                  <div class="tech-tags">
-                    {project.tech.map((t: string) => <span class="tech-tag">{t}</span>)}
-                  </div>
-                )}
+                <div class="tech-tags">
+                  <span class="tech-tag category-tag">{project.category}</span>
+                  {project.tech && project.tech.map((t: string) => <span class="tech-tag">{t}</span>)}
+                </div>
                 {project.link && (
                   <a href={project.link} class="project-link" target="_blank" rel="noopener noreferrer">
                     View Project →
@@ -124,34 +119,17 @@ const projectsByCategory = Object.fromEntries(
     color: var(--text-primary);
   }
 
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.7rem;
+  .project-card.status-live {
+    border-left: 3px solid var(--accent-lime);
+  }
+
+  .project-card.status-wip {
+    border-left: 3px solid var(--accent-amber);
+  }
+
+  .category-tag {
     font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .status-badge.active {
-    background: color-mix(in srgb, var(--accent-lime) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--accent-lime) 50%, transparent);
-    color: var(--accent-lime);
-  }
-
-  .status-badge.planned {
-    background: color-mix(in srgb, var(--accent-amber) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--accent-amber) 50%, transparent);
-    color: var(--accent-amber);
-  }
-
-  .status-badge.done {
-    background: color-mix(in srgb, var(--text-secondary) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--text-secondary) 40%, transparent);
-    color: var(--text-secondary);
+    opacity: 0.8;
   }
 
   .project-description {
