@@ -1,8 +1,8 @@
 ---
 title: "The Last Stand"
 date: 2026-07-06
-description: ""
-tags: ["dad", "family", "loss", "veteran", "vietnam", "Warrior"]
+description: "A Warrior's final thirty minutes, and the son who stood beside him."
+tags: ["dad", "family", "loss", "veteran", "vietnam", "warrior"]
 author: "Christopher Staub"
 editor: "Michael T Smith"
 category: "life"
