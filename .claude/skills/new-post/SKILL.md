@@ -68,6 +68,7 @@ date: {TODAY'S DATE YYYY-MM-DD}
 description: ""
 tags: [{tags array}]
 author: "StaubRacing"
+editor: "Michael T Smith"
 category: "{category}"
 draft: true
 ---
@@ -76,6 +77,7 @@ draft: true
 **Important:**
 - Use `draft: true` by default for new posts
 - Leave `description` empty for the user to fill in
+- Always include `editor: "Michael T Smith"` by default, regardless of category (revisit if a different editor is ever used)
 - Include the series field only if `--series` was provided
 - Include `featured: true` only if `--featured` was provided
 
@@ -147,6 +149,7 @@ date: 2026-02-16
 description: ""
 tags: ["brakes", "safety", "maintenance"]
 author: "StaubRacing"
+editor: "Michael T Smith"
 category: "racing"
 draft: true
 ---
