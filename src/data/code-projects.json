@@ -1,9 +1,49 @@
 {
-  "lastUpdated": "2026-02-16",
+  "lastUpdated": "2026-07-07",
   "projects": [
     {
+      "name": "Staub Racing Site",
+      "status": "live",
+      "category": "Websites",
+      "description": "This site - motorcycle racing, coding projects, and life updates",
+      "tech": ["Astro 5", "MDX", "TypeScript", "AWS S3", "CloudFront"],
+      "link": "https://github.com/StaubRacing/staubracing.com"
+    },
+    {
+      "name": "Chris Staub Site",
+      "status": "live",
+      "category": "Websites",
+      "description": "Personal portfolio with clean, minimal design",
+      "tech": ["HTML", "CSS", "Responsive Design"],
+      "link": "https://chrisstaub.com"
+    },
+    {
+      "name": "Moto-API",
+      "status": "live",
+      "category": "Backend",
+      "description": "Serverless backend API for the Moto app with PostgreSQL",
+      "tech": ["TypeScript", "Serverless Framework", "AWS Lambda", "PostgreSQL"],
+      "link": null
+    },
+    {
+      "name": "MoneyMap",
+      "status": "live",
+      "category": "AI/ML",
+      "description": "AI-powered spending categorization with RAG and multiple LLM support",
+      "tech": ["TypeScript", "LangChain", "OpenAI", "Anthropic", "PostgreSQL", "Express"],
+      "link": null
+    },
+    {
+      "name": "Updog Coffee",
+      "status": "live",
+      "category": "Client Work",
+      "description": "Static website for local coffee shop client",
+      "tech": ["HTML", "CSS"],
+      "link": null
+    },
+    {
       "name": "Moto App Pro",
-      "status": "active",
+      "status": "wip",
       "category": "Mobile Apps",
       "description": "React Native motorcycle tracking app with offline support and AWS backend",
       "tech": [
@@ -19,91 +59,19 @@
       "link": null
     },
     {
-      "name": "Moto-API",
-      "status": "active",
-      "category": "Backend",
-      "description": "Serverless backend API for the Moto app with PostgreSQL",
-      "tech": ["TypeScript", "Serverless Framework", "AWS Lambda", "PostgreSQL"],
-      "link": null
-    },
-    {
-      "name": "Updog Coffee",
-      "status": "done",
-      "category": "Client Work",
-      "description": "Static website for local coffee shop client",
-      "tech": ["HTML", "CSS"],
-      "link": null
-    },
-    {
-      "name": "Chris Staub Site",
-      "status": "active",
-      "category": "Websites",
-      "description": "Personal portfolio with clean, minimal design",
-      "tech": ["HTML", "CSS", "Responsive Design"],
-      "link": "https://chrisstaub.com"
-    },
-    {
       "name": "Kiera Site",
-      "status": "planned",
+      "status": "wip",
       "category": "Websites",
       "description": "Personal website project - planned redesign",
       "tech": ["HTML", "CSS"],
       "link": null
     },
     {
-      "name": "Staub Racing Site",
-      "status": "active",
-      "category": "Websites",
-      "description": "This site - motorcycle racing, coding projects, and life updates",
-      "tech": ["Astro 5", "MDX", "TypeScript", "AWS S3", "CloudFront"],
-      "link": "https://github.com/StaubRacing/staubracing.com"
-    },
-    {
       "name": "Meal Planner",
-      "status": "planned",
+      "status": "wip",
       "category": "Backend",
       "description": "Self-hosted family meal planner — weekly grid, recipe library, grocery list generator, and defrost planner. Planned for meals.staubracing.com",
       "tech": ["TypeScript", "Express", "PostgreSQL", "PM2"],
-      "link": null
-    },
-    {
-      "name": "MoneyMap",
-      "status": "active",
-      "category": "AI/ML",
-      "description": "AI-powered spending categorization with RAG and multiple LLM support",
-      "tech": ["TypeScript", "LangChain", "OpenAI", "Anthropic", "PostgreSQL", "Express"],
-      "link": null
-    },
-    {
-      "name": "Project Doc Assistant",
-      "status": "active",
-      "category": "AI/ML",
-      "description": "RAG-powered documentation assistant with multi-provider LLM support",
-      "tech": ["Node.js", "LangChain", "Anthropic", "OpenAI", "Cohere", "PostgreSQL"],
-      "link": null
-    },
-    {
-      "name": "Private AI",
-      "status": "active",
-      "category": "AI/ML",
-      "description": "AWS CDK infrastructure for EC2 instance with Bedrock AI agent",
-      "tech": ["AWS CDK", "TypeScript", "AWS Bedrock"],
-      "link": null
-    },
-    {
-      "name": "AI Assistant",
-      "status": "active",
-      "category": "AI/ML",
-      "description": "Custom AI assistant prompts and workflow configurations",
-      "tech": ["Prompts", "Configs"],
-      "link": null
-    },
-    {
-      "name": "Documentation RAG",
-      "status": "active",
-      "category": "AI/ML",
-      "description": "RAG system for documentation processing with PDF and DOCX support",
-      "tech": ["Node.js", "Anthropic SDK", "OpenAI", "pdf-parse", "mammoth"],
       "link": null
     }
   ]
