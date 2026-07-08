@@ -2,7 +2,7 @@ import { defineCollection, z } from "astro:content";
 import categoriesJson from "./categories.json";
 
 // Define category types for better TypeScript support
-export const CATEGORIES = ["racing", "code", "projects", "life"] as const;
+export const CATEGORIES = ["racing", "code", "life"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 // Category metadata with proper typing

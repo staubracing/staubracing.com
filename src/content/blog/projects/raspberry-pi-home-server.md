@@ -7,7 +7,7 @@ tags:
   ["raspberry-pi", "home-server", "linux", "automation", "self-hosted", "navidrome", "nextcloud"]
 author: "StaubRacing"
 featured: true
-category: "projects"
+category: "code"
 ---
 
 Let me tell you how a credit card-sized computer ended up running more of my life than I ever planned.

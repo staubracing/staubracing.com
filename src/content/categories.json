@@ -1,5 +1,5 @@
 {
-  "categories": ["racing", "code", "projects", "life"],
+  "categories": ["racing", "code", "life"],
   "info": {
     "racing": {
       "emoji": "🏍️",
@@ -12,12 +12,6 @@
       "title": "Code Projects",
       "color": "#3498db",
       "description": "Apps, tutorials, dev journey"
-    },
-    "projects": {
-      "emoji": "🔧",
-      "title": "Workshop",
-      "color": "#f39c12",
-      "description": "DIY builds, homelab, hardware hacks"
     },
     "life": {
       "emoji": "📝",
