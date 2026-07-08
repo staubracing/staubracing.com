@@ -97,7 +97,6 @@ function isInSection(path: string, section: string): boolean {
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
         <a href="/racing" class={isInSection(currentPath, 'racing') ? 'active' : ''}>Racing</a>
-        <a href="/workshop" class={isInSection(currentPath, 'workshop') ? 'active' : ''}>Workshop</a>
         <a href="/code" class={isInSection(currentPath, 'code') ? 'active' : ''}>Code</a>
         <a href="/journal" class={isInSection(currentPath, 'journal') ? 'active' : ''}>Journal</a>
         <a href="/contact" class={currentPath === '/contact' ? 'active' : ''}>Contact</a>
