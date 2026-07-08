@@ -2,6 +2,13 @@
   "lastUpdated": "2026-07-08",
   "items": [
     {
+      "id": "kawasaki-kx450f-re-print-the-disc-spacer",
+      "bike": "Kawasaki KX450F",
+      "task": "Re print the disc spacer",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
       "id": "kawasaki-kx450f-finish-swingarm-mod",
       "bike": "Kawasaki KX450F",
       "task": "Finish Swingarm Mod",
