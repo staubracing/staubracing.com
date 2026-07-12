@@ -6,6 +6,8 @@
  *
  * Usage: yarn sync:maintenance
  *
+ * API fetches retry up to 3 times with backoff on transient 401/5xx/network errors.
+ *
  * Authentication options (in order of preference):
  * 1. AWS credentials + Secrets Manager (recommended for CI/CD)
  *    - Requires: AWS credentials with secretsmanager:GetSecretValue permission
@@ -164,21 +166,83 @@ async function getCredentials(): Promise<{ username: string; password: string }>
   return { username, password };
 }
 
+const MAX_FETCH_ATTEMPTS = 3;
+const RETRYABLE_STATUS_CODES = new Set([401, 408, 425, 429, 500, 502, 503, 504]);
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function isRetryableError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  const message = error.message.toLowerCase();
+  return (
+    message.includes('401') ||
+    message.includes('408') ||
+    message.includes('425') ||
+    message.includes('429') ||
+    message.includes('500') ||
+    message.includes('502') ||
+    message.includes('503') ||
+    message.includes('504') ||
+    message.includes('fetch failed') ||
+    message.includes('network') ||
+    message.includes('econnreset') ||
+    message.includes('etimedout') ||
+    message.includes('socket')
+  );
+}
+
+/**
+ * Fetch JSON from the API with retries for transient auth/network/server errors.
+ */
+async function fetchJsonWithRetry<T>(url: string, token: string, label: string): Promise<T> {
+  let lastError: Error | undefined;
+
+  for (let attempt = 1; attempt <= MAX_FETCH_ATTEMPTS; attempt++) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const error = new Error(`Failed to fetch ${label}: ${response.status} ${response.statusText}`);
+        if (!RETRYABLE_STATUS_CODES.has(response.status) || attempt === MAX_FETCH_ATTEMPTS) {
+          throw error;
+        }
+
+        const delayMs = attempt * 2000;
+        console.warn(`   ⚠️  ${error.message} — retrying in ${delayMs / 1000}s (${attempt}/${MAX_FETCH_ATTEMPTS})`);
+        await sleep(delayMs);
+        lastError = error;
+        continue;
+      }
+
+      return (await response.json()) as T;
+    } catch (error) {
+      const normalized = error instanceof Error ? error : new Error(String(error));
+      lastError = normalized;
+
+      if (!isRetryableError(normalized) || attempt === MAX_FETCH_ATTEMPTS) {
+        throw normalized;
+      }
+
+      const delayMs = attempt * 2000;
+      console.warn(`   ⚠️  ${normalized.message} — retrying in ${delayMs / 1000}s (${attempt}/${MAX_FETCH_ATTEMPTS})`);
+      await sleep(delayMs);
+    }
+  }
+
+  throw lastError ?? new Error(`Failed to fetch ${label} after ${MAX_FETCH_ATTEMPTS} attempts`);
+}
+
 /**
  * Fetch bikes from API and return ID → name mapping
  */
 async function fetchBikes(token: string): Promise<Map<string, string>> {
-  const response = await fetch(BIKES_ENDPOINT, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch bikes: ${response.status} ${response.statusText}`);
-  }
-
-  const bikes: Bike[] = await response.json();
+  const bikes = await fetchJsonWithRetry<Bike[]>(BIKES_ENDPOINT, token, 'bikes');
   const bikeMap = new Map<string, string>();
 
   for (const bike of bikes) {
@@ -192,17 +256,7 @@ async function fetchBikes(token: string): Promise<Map<string, string>> {
  * Fetch incomplete maintenance tasks from API
  */
 async function fetchTasks(token: string): Promise<DbTask[]> {
-  const response = await fetch(MAINTENANCE_ENDPOINT, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch tasks: ${response.status} ${response.statusText}`);
-  }
-
-  const tasks: DbTask[] = await response.json();
+  const tasks = await fetchJsonWithRetry<DbTask[]>(MAINTENANCE_ENDPOINT, token, 'tasks');
 
   // Filter out completed tasks - public page only shows pending work
   return tasks.filter(task => !task.completed);
