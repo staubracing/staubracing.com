@@ -278,7 +278,7 @@ Use imperative sentence case: "Revise homepage content..." or "Add new blog post
 
 ## Backend API
 
-The backend is a standalone Express server (not Lambda) running on a Raspberry Pi called "arrakis" (staubracing@raspberrypi).
+The backend is a standalone Express server (not Lambda) running on rack-server.
 
 **Repo:** github.com/staubracing/moto-lambda-API (branch: main)
 **Live URL:** https://api.staubracing.com (via Cloudflare Tunnel)
@@ -288,7 +288,7 @@ The backend is a standalone Express server (not Lambda) running on a Raspberry P
 
 1. Edit code on dev laptop
 2. Push to GitHub
-3. SSH into arrakis
+3. SSH into rack-server
 4. git pull && yarn build && pm2 restart moto-api
 
 **Stack:**
