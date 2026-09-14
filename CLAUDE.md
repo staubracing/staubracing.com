@@ -26,15 +26,17 @@ yarn astro check  # TypeScript validation
 
 ### Deployment
 
-Deployed automatically via GitHub Actions on push to `main`:
+Deployed automatically via Forgejo Actions (self-hosted runner on rack-server) on push to `main`. Repo is hosted on the self-hosted Forgejo instance at `http://100.113.60.87:3010` (Tailscale-only), with GitHub kept only as a secondary remote:
 
 - Builds with `astro build`
 - Syncs `dist/` to AWS S3
 - Invalidates CloudFront cache
 
-No manual deploy command needed — just `git push`.
+No manual deploy command needed — just `git push forgejo main` (or `git push` if `forgejo` is your default push remote).
 
-**Required GitHub Secrets:**
+Workflow files live in `.forgejo/workflows/` (`deploy.yml`, `scheduled-build.yml`). See [Forgejo Service](../../Documentation/HomeLab/Services/forgejo.md) for runner/instance details.
+
+**Required Forgejo Actions Secrets** (repo Settings → Actions → Secrets):
 
 - `GOOGLE_CALENDAR_API_KEY` - For calendar integration
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` - S3/CloudFront access
@@ -273,7 +275,7 @@ Use imperative sentence case: "Revise homepage content..." or "Add new blog post
 | CDN             | AWS CloudFront                |
 | DNS             | AWS Route 53                  |
 | SSL             | AWS Certificate Manager       |
-| CI/CD           | GitHub Actions                |
+| CI/CD           | Forgejo Actions (self-hosted)  |
 | Package Manager | Yarn                          |
 
 ## Backend API
