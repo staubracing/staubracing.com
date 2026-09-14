@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found - StaubRacing">
+  <section class="section-card">
+    <header class="section-header">
+      <h1>404</h1>
+      <p>That page doesn't exist. It might have moved, or never existed at all.</p>
+    </header>
+
+    <div class="home-row">
+      <a href="/" class="home-pill">Back to home</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section-card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    text-align: center;
+  }
+
+  .home-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .home-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    border-radius: 999px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-soft);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .home-pill:hover,
+  .home-pill:focus-visible {
+    border-color: var(--accent-lime);
+    background: var(--surface-solid);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 0 18px -4px color-mix(in srgb, var(--accent-lime) 40%, transparent);
+  }
+
+  .home-pill:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--accent-lime);
+  }
+
+  .home-pill:active {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-pill {
+      transition: none;
+    }
+
+    .home-pill:hover,
+    .home-pill:focus-visible {
+      transform: none;
+    }
+  }
+</style>
