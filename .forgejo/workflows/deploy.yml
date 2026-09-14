@@ -54,6 +54,7 @@ jobs:
           else
             git add src/data/maintenance.json
             git commit -m "chore: sync maintenance data from database [skip ci]"
+            git checkout -- . # discard incidental changes (e.g. yarn.lock rewrites) so the tree is clean before rebasing
             git pull --rebase origin main
             git push
           fi
